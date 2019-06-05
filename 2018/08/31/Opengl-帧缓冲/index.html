@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="OpenGL中的缓冲只是一个管理特定内存块的对象，没有其它更多的功能了。  首先我们明确一个原理或者道理，不论是什么缓冲，深度也好，模板也罢。再往前说的顶点数据的颜色缓冲。都是一个存储的单元，都是一个存储对象，管理一块特定的内存。没有什么特殊的功能。千万别想太多，记住了哈。 ###帧缓冲FBO 也就是帧缓冲 FrameBufferObject ，可以用来做很多事，核心上来说，它干了什么了？把所有">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opengl-帧缓冲(一个新的缓冲对象，想一下深度和模板缓冲)">
+<meta property="og:url" content="http://yoursite.com/2018/08/31/Opengl-帧缓冲/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="OpenGL中的缓冲只是一个管理特定内存块的对象，没有其它更多的功能了。  首先我们明确一个原理或者道理，不论是什么缓冲，深度也好，模板也罢。再往前说的顶点数据的颜色缓冲。都是一个存储的单元，都是一个存储对象，管理一块特定的内存。没有什么特殊的功能。千万别想太多，记住了哈。 ###帧缓冲FBO 也就是帧缓冲 FrameBufferObject ，可以用来做很多事，核心上来说，它干了什么了？把所有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/opengl/framebuffer1.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/framebuffer2.png">
+<meta property="og:updated_time" content="2019-06-05T05:36:21.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Opengl-帧缓冲(一个新的缓冲对象，想一下深度和模板缓冲)">
+<meta name="twitter:description" content="OpenGL中的缓冲只是一个管理特定内存块的对象，没有其它更多的功能了。  首先我们明确一个原理或者道理，不论是什么缓冲，深度也好，模板也罢。再往前说的顶点数据的颜色缓冲。都是一个存储的单元，都是一个存储对象，管理一块特定的内存。没有什么特殊的功能。千万别想太多，记住了哈。 ###帧缓冲FBO 也就是帧缓冲 FrameBufferObject ，可以用来做很多事，核心上来说，它干了什么了？把所有">
+<meta name="twitter:image" content="http://yoursite.com/images/opengl/framebuffer1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/31/Opengl-帧缓冲/">
+
+
+
+
+
+  <title>Opengl-帧缓冲(一个新的缓冲对象，想一下深度和模板缓冲) | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/31/Opengl-帧缓冲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Opengl-帧缓冲(一个新的缓冲对象，想一下深度和模板缓冲)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-31T00:00:00+08:00">
+                2018-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opengl/" itemprop="url" rel="index">
+                    <span itemprop="name">opengl</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p><strong>OpenGL中的缓冲只是一个管理特定内存块的对象，没有其它更多的功能了。</strong></p>
+<hr>
+<p>首先我们明确一个原理或者道理，不论是什么缓冲，深度也好，模板也罢。再往前说的顶点数据的颜色缓冲。都是一个存储的单元，都是一个存储对象，管理一块特定的内存。没有什么特殊的功能。千万别想太多，记住了哈。</p>
+<p>###帧缓冲<br>FBO 也就是帧缓冲 FrameBufferObject ，可以用来做很多事，核心上来说，它干了什么了？<br><strong>把所有的渲染都绘制到了一张图上</strong>，这就是它干的，也是它经常被用来干的。</p>
+<p><strong>如何使用</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unsigned int fbo;</span><br><span class="line">glGenFramebuffers(1, &amp;fbo);</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, fbo);</span><br></pre></td></tr></table></figure>
+
+<p>看着很眼熟吧。。。其实既然是Opengl的对象都是这样的，你现在有没有点豁然开朗的感觉。先Gen生成，然后Bind到状态机的Context上就表示我们接下来开始使用这个。回想一下，前面说VAO的时候就明白了</p>
+<p><img src="/images/opengl/framebuffer1.png" alt="这里写图片描述"></p>
+<p>看下这张图，然后我们来深入的了解下这个FBO。</p>
+<p><strong>帧缓冲条件</strong>：</p>
+<ul>
+<li>附加至少一个缓冲（颜色、深度或模板缓冲）。</li>
+<li>至少有一个颜色附件(Attachment)。</li>
+<li>所有的附件都必须是完整的（保留了内存）。</li>
+<li>每个缓冲都应该有相同的样本数。</li>
+</ul>
+<p>其实简单理解就是：<strong>帧缓冲区对象只是一个容器，它可以保存其他确实有内存存储并且可以进行渲染的对象，如纹理或者渲染缓冲区。</strong></p>
+<p>到目前为止，我们见过很多缓冲了：用于写入颜色值的 <strong>颜色缓冲</strong> 、用于写入深度信息的 <strong>深度缓冲</strong> 和允许我们根据一些条件丢弃特定片段的 <strong>模板缓冲</strong> 。<strong>这些缓冲结合起来叫做帧缓冲</strong> (Framebuffer)，它被储存在内存中。OpenGL允许我们定义我们自己的帧缓冲，也就是说我们能够定义我们自己的颜色缓冲，甚至是深度缓冲和模板缓冲。</p>
+<hr>
+<p><strong>附件</strong>：</p>
+<ul>
+<li>纹理附件 ：当把一个纹理附加到帧缓冲的时候，所有的渲染指令将会写入到这个纹理中，就想它是一个普通的颜色/深度或模板缓冲一样。使用纹理的优点是，所有渲染操作的结果将会被储存在一个纹理图像中，我们之后可以在着色器中很方便地使用它。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">unsigned int texture;</span><br><span class="line">glGenTextures(1, &amp;texture);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, texture);</span><br><span class="line"></span><br><span class="line">glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);</span><br><span class="line"></span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line"></span><br><span class="line">glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);</span><br></pre></td></tr></table></figure>
+
+<p>可以看到GL_COLOR_ATTACHMENT0参数表示附件类型是颜色缓冲</p>
+<hr>
+<ul>
+<li>渲染缓冲对象附件(rbo)：和纹理图像一样，渲染缓冲对象是一个真正的缓冲，即一系列的字节、整数、像素等。渲染缓冲对象附加的好处是，它会将数据储存为OpenGL原生的渲染格式，<strong>它是为离屏渲染到帧缓冲优化过的</strong>。由于渲染缓冲对象通常都是只写的，<strong>它们会经常用于深度和模板附件</strong>专门为绑定到FBO而设计</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unsigned int rbo;</span><br><span class="line">glGenRenderbuffers(1, &amp;rbo);</span><br><span class="line">glBindRenderbuffer(GL_RENDERBUFFER, rbo); </span><br><span class="line">glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  </span><br><span class="line">glBindRenderbuffer(GL_RENDERBUFFER, 0);</span><br><span class="line">glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到GL_DEPTH_STENCIL_ATTACHMENT这个参数指定了附件类型，这里我们让rbo来存下深度和模板信息。</p>
+<hr>
+<p>常用帧缓冲写入纹理来实现一些特殊效果。你想象一下，当所有的场景都被渲染到了一个张图上，就是一个图片一样，这个时候我们想对某一个像素点或者什么东西做什么的时候，是不是很方便就能找到？纹理想一哈？</p>
+<p>步骤：</p>
+<p><strong>生成帧缓冲</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unsigned int framebuffer;</span><br><span class="line">glGenFramebuffers(1, &amp;framebuffer);</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成纹理并绑定到为帧缓冲附件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 生成纹理</span><br><span class="line">unsigned int texColorBuffer;</span><br><span class="line">glGenTextures(1, &amp;texColorBuffer);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, texColorBuffer);</span><br><span class="line">glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, 0);</span><br><span class="line"></span><br><span class="line">// 将它附加到当前绑定的帧缓冲对象</span><br><span class="line">glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成rbo绑定为深度模板附件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unsigned int rbo;</span><br><span class="line">glGenRenderbuffers(1, &amp;rbo);</span><br><span class="line">glBindRenderbuffer(GL_RENDERBUFFER, rbo); </span><br><span class="line">glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);  </span><br><span class="line">glBindRenderbuffer(GL_RENDERBUFFER, 0);</span><br><span class="line">glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 第一处理阶段(Pass)</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);</span><br><span class="line">glClearColor(0.1f, 0.1f, 0.1f, 1.0f);</span><br><span class="line">glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 我们现在不使用模板缓冲</span><br><span class="line">glEnable(GL_DEPTH_TEST);</span><br><span class="line">DrawScene();    </span><br><span class="line"></span><br><span class="line">// 第二处理阶段</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认</span><br><span class="line">glClearColor(1.0f, 1.0f, 1.0f, 1.0f); </span><br><span class="line">glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">screenShader.use();  </span><br><span class="line">glBindVertexArray(quadVAO);</span><br><span class="line">glDisable(GL_DEPTH_TEST);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, textureColorbuffer);</span><br><span class="line">glDrawArrays(GL_TRIANGLES, 0, 6);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/opengl/framebuffer2.png" alt="这里写图片描述"></p>
+<p>如图就是把箱子场景绘制到了一张图上虽然你看不出来，但是确实如此。而右边就是把原来提供的默认帧缓冲渲染了一个四边形</p>
+<hr>
+<p><strong>OpenGL中的缓冲只是一个管理特定内存块的对象，没有其它更多的功能了。</strong><br><strong>帧缓冲多用来写入纹理，通过添加一个纹理附件把元素都渲染都这张纹理图上</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2018/08/31/Opengl-帧缓冲/" title="Opengl-帧缓冲(一个新的缓冲对象，想一下深度和模板缓冲)">http://yoursite.com/2018/08/31/Opengl-帧缓冲/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/30/Opengl-面剔除/" rel="next" title="Opengl-面剔除(一种优化方式)">
+                <i class="fa fa-chevron-left"></i> Opengl-面剔除(一种优化方式)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/01/Opengl-几何着色器/" rel="prev" title="Opengl-几何着色器(劫持顶点的家伙)">
+                Opengl-几何着色器(劫持顶点的家伙) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

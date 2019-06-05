@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我也不知道第一篇博客到底要搞什么，刚好最近有朋友在研究状态机，想起自己在quick-cocos的时候研究过这里再做个详细的研究或者介绍。    其实，讲道理状态机是什么我没法给你讲的太清楚，顾名思义就是一个管理状态的机器，你这么理解就差不多的。quick引擎是一款很轻量级的2D游戏引擎（不是广告啊兄弟们），它的源码也都很简单易懂，加上cocos引擎的luabinding可以使用lua语言快速开发各">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 quick-cocos 状态机">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/关于 quick-cocos 状态机/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="我也不知道第一篇博客到底要搞什么，刚好最近有朋友在研究状态机，想起自己在quick-cocos的时候研究过这里再做个详细的研究或者介绍。    其实，讲道理状态机是什么我没法给你讲的太清楚，顾名思义就是一个管理状态的机器，你这么理解就差不多的。quick引擎是一款很轻量级的2D游戏引擎（不是广告啊兄弟们），它的源码也都很简单易懂，加上cocos引擎的luabinding可以使用lua语言快速开发各">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-05T05:36:21.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于 quick-cocos 状态机">
+<meta name="twitter:description" content="我也不知道第一篇博客到底要搞什么，刚好最近有朋友在研究状态机，想起自己在quick-cocos的时候研究过这里再做个详细的研究或者介绍。    其实，讲道理状态机是什么我没法给你讲的太清楚，顾名思义就是一个管理状态的机器，你这么理解就差不多的。quick引擎是一款很轻量级的2D游戏引擎（不是广告啊兄弟们），它的源码也都很简单易懂，加上cocos引擎的luabinding可以使用lua语言快速开发各">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/12/关于 quick-cocos 状态机/">
+
+
+
+
+
+  <title>关于 quick-cocos 状态机 | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/12/关于 quick-cocos 状态机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于 quick-cocos 状态机</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-12T00:00:00+08:00">
+                2016-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我也不知道第一篇博客到底要搞什么，刚好最近有朋友在研究状态机，想起自己在quick-cocos的时候研究过这里再做个详细的研究或者介绍。<br>    其实，讲道理状态机是什么我没法给你讲的太清楚，顾名思义就是一个管理状态的机器，你这么理解就差不多的。quick引擎是一款很轻量级的2D游戏引擎（不是广告啊兄弟们），它的源码也都很简单易懂，加上cocos引擎的luabinding可以使用lua语言快速开发各种2d游戏，而在源码里，如果你很细心，那么肯定会发现有一个叫stateMachine的lua文件 ，对就是它，是它就是它我们的状态机源码。<br>    对于如何快速理解这个状态机，我想我们直接举例子来说吧</p>
+<h2 id="状态机创建"><a href="#状态机创建" class="headerlink" title="状态机创建"></a>状态机创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.fsm = &#123;&#125;  			  cc.GameObject.extend(self.fsm):addComponent(&quot;components.behavior.StateMachine&quot;):exportMethods()</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化状态机参数"><a href="#初始化状态机参数" class="headerlink" title="初始化状态机参数"></a>初始化状态机参数</h2><pre><code>设置状态逻辑是重写setupState方法，这其中有这么几个字段参数，
+
+initial：状态机的初始状态 
+terminal （final）：结束状态 
+events：状态发生转变时对应的事件 
+callbacks：发生转变时的回调函数
+
+一般我们会设置initial，events和callbacks这三个。
+
+先看events，在events中需要分清楚“事件”和“状态”，events采用table结构，例如我们来写一个</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">events = &#123; </span><br><span class="line">	&#123;name = “move”, from = &#123;“idle”, “jump”&#125;, to = “walk”&#125;, </span><br><span class="line">	｝</span><br></pre></td></tr></table></figure>
+
+<pre><code>这里的move就是事件名称，然后后面的from和to就很好理解了，就是起始的状态到变化后的状态。
+当然，复杂一点的可以这么写：</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">events = &#123; </span><br><span class="line">&#123;name = “move”, from = &#123;“idle”, “jump”&#125;, to = “walk”&#125;, </span><br><span class="line">&#123;name = “attack”, from = &#123;“idle”, “walk”&#125;, to = “jump”&#125;, </span><br><span class="line">&#123;name = “normal”, from = &#123;“walk”, “jump”&#125;, to = “idle”&#125;, </span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<pre><code>注意，from可以是一个或者多个，但是to也就是目标状态只能有一个，因为你想啊，你总不能不确定你到底想变成什么就要变吧</code></pre><h2 id="callbacks参数"><a href="#callbacks参数" class="headerlink" title="callbacks参数"></a>callbacks参数</h2><ul>
+<li><p>onbeforeEVNET： 在事件EVENT开始前被激活 </p>
+</li>
+<li><p>onleaveSTATE： 在离开旧状态STATE时被激活 </p>
+</li>
+<li><p>onenterSTATE 或 onSTATE：在进入新状态STATE时被激活 </p>
+</li>
+<li><p>onafterEVENT 或 onEVENT：在事件EVENT结束后被激活</p>
+<p> 此外还有5种通用型的回调来捕获所有事件和状态的变化:</p>
+</li>
+<li><p>onbeforeevent： 在任何事件开始前被激活 </p>
+</li>
+<li><p>onleavestate： 在离开任何状态时被激活 </p>
+</li>
+<li><p>onenterstate：在进入任何状态时被激活 </p>
+</li>
+<li><p>onafterevent ：在任何事件结束后被激活 </p>
+</li>
+<li><p>onchangestate ：当状态发生改变的时候被激活<br> 这里面的名称是不可以修改的，它是针对于任何事件和任何状态的。 </p>
+</li>
+</ul>
+<h2 id="状态机调用"><a href="#状态机调用" class="headerlink" title="状态机调用"></a>状态机调用</h2><pre><code>通过self.fsm:doEvent(event)就可以了，参数event对应events参数名称。 
+fsm:isReady() ：返回状态机是否就绪 
+fsm:getState() ：返回当前状态 
+fsm:isState(state) ：判断当前状态是否是参数state状态 
+fsm:canDoEvent(eventName) ：当前状态如果能完成eventName对应的event的状态转换，则返回true 
+fsm:cannotDoEvent(eventName) ：当前状态如果不能完成eventName对应的event的状态转换，则返回true 
+fsm:isFinishedState() ：当前状态如果是最终状态，则返回true 
+fsm:doEventForce(name, …) ：强制对当前状态进行转换</code></pre><h2 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">local Player = class(“Player”, function () </span><br><span class="line">	return display.newSprite(“icon.png”) </span><br><span class="line">	end)</span><br><span class="line"></span><br><span class="line">	function Player:ctor() </span><br><span class="line">		self:addStateMachine() </span><br><span class="line">	end</span><br><span class="line"></span><br><span class="line">	function Player:doEvent(event) </span><br><span class="line">		self.fsm:doEvent(event) </span><br><span class="line">	end</span><br><span class="line"></span><br><span class="line">	function Player:addStateMachine() </span><br><span class="line">	self.fsm = &#123;&#125; 			  cc.GameObject.extend(self.fsm):addComponent(“components.behavior.StateMachine”):exportMethods()</span><br><span class="line"></span><br><span class="line">	self.fsm:setupState(&#123;  </span><br><span class="line">    initial = &quot;idle&quot;,  </span><br><span class="line"></span><br><span class="line">    events = &#123;  </span><br><span class="line">        &#123;name = &quot;move&quot;, from = &#123;&quot;idle&quot;, &quot;jump&quot;&#125;, to = &quot;walk&quot;&#125;,  </span><br><span class="line">        &#123;name = &quot;attack&quot;, from = &#123;&quot;idle&quot;, &quot;walk&quot;&#125;, to = &quot;jump&quot;&#125;,  </span><br><span class="line">        &#123;name = &quot;normal&quot;, from = &#123;&quot;walk&quot;, &quot;jump&quot;&#125;, to = &quot;idle&quot;&#125;,  </span><br><span class="line">    &#125;,  </span><br><span class="line"></span><br><span class="line">    callbacks = &#123;  </span><br><span class="line">        onenteridle = function ()  </span><br><span class="line">            local scale = CCScaleBy:create(0.2, 1.2)  </span><br><span class="line">            self:runAction(CCRepeat:create(transition.sequence(&#123;scale, scale:reverse()&#125;), 2))  </span><br><span class="line">        end,  </span><br><span class="line"></span><br><span class="line">        onenterwalk = function ()  </span><br><span class="line">            local move = CCMoveBy:create(0.2, ccp(100, 0))  </span><br><span class="line">            self:runAction(CCRepeat:create(transition.sequence(&#123;move, move:reverse()&#125;), 2))  </span><br><span class="line">        end,  </span><br><span class="line"></span><br><span class="line">        onenterjump = function ()  </span><br><span class="line">            local jump = CCJumpBy:create(0.5, ccp(0, 0), 100, 2)  </span><br><span class="line">            self:runAction(jump)  </span><br><span class="line">        end,  </span><br><span class="line">    &#125;,  </span><br><span class="line">	&#125;)  </span><br><span class="line">	end</span><br><span class="line"></span><br><span class="line">	return Player</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">local Player = import(“..views.Player”)</span><br><span class="line">	</span><br><span class="line">	local MyScene = class(“MyScene”, function () </span><br><span class="line">	return display.newScene(“MyScene”) </span><br><span class="line">	end)</span><br><span class="line">	</span><br><span class="line">	function MyScene:ctor()</span><br><span class="line">	</span><br><span class="line">	local player = Player.new()  </span><br><span class="line">	player:setPosition(display.cx, display.cy)  </span><br><span class="line">	self:addChild(player)  </span><br><span class="line">	</span><br><span class="line">	local function menuCallback(tag)  </span><br><span class="line">	    if tag == 1 then   </span><br><span class="line">	        player:doEvent(&quot;normal&quot;)  </span><br><span class="line">	    elseif tag == 2 then  </span><br><span class="line">	        player:doEvent(&quot;move&quot;)  </span><br><span class="line">	    elseif tag == 3 then  </span><br><span class="line">	        player:doEvent(&quot;attack&quot;)  </span><br><span class="line">	    end  </span><br><span class="line">	end  </span><br><span class="line">	</span><br><span class="line">	local mormalItem = ui.newTTFLabelMenuItem(&#123;text = &quot;normal&quot;, x = display.width*0.3, y = display.height*0.2, listener = menuCallback, tag = 1&#125;)  </span><br><span class="line">	local moveItem =  ui.newTTFLabelMenuItem(&#123;text = &quot;move&quot;, x = display.width*0.5, y = display.height*0.2, listener = menuCallback, tag = 2&#125;)  </span><br><span class="line">	local attackItem =  ui.newTTFLabelMenuItem(&#123;text = &quot;attack&quot;, x = display.width*0.7, y = display.height*0.2, listener = menuCallback, tag = 3&#125;)  </span><br><span class="line">	local menu = ui.newMenu(&#123;mormalItem, moveItem, attackItem&#125;)  </span><br><span class="line">	self:addChild(menu)  </span><br><span class="line">	end</span><br><span class="line">	</span><br><span class="line">	return MyScene</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2016/12/12/关于 quick-cocos 状态机/" title="关于 quick-cocos 状态机">http://yoursite.com/2016/12/12/关于 quick-cocos 状态机/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/15/开始我的Opengl学习之路/" rel="prev" title="开始我的Opengl学习之路（rua）">
+                开始我的Opengl学习之路（rua） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态机创建"><span class="nav-number">1.</span> <span class="nav-text">状态机创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化状态机参数"><span class="nav-number">2.</span> <span class="nav-text">初始化状态机参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#callbacks参数"><span class="nav-number">3.</span> <span class="nav-text">callbacks参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态机调用"><span class="nav-number">4.</span> <span class="nav-text">状态机调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码部分"><span class="nav-number">5.</span> <span class="nav-text">代码部分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

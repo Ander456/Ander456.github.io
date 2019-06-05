@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。 关于图片在运行的时占用内存大小运行时大小 = 长x宽x每个像素占的大小举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）">
+<meta property="og:url" content="http://yoursite.com/2018/12/25/纹理POT和NPOT/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="前言  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。 关于图片在运行的时占用内存大小运行时大小 = 长x宽x每个像素占的大小举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-05T05:36:21.212Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）">
+<meta name="twitter:description" content="前言  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。 关于图片在运行的时占用内存大小运行时大小 = 长x宽x每个像素占的大小举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
+
+
+
+
+
+  <title>Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂） | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
+<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
+<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
+<blockquote>
+<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
+</blockquote>
+<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
+<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2018/12/25/纹理POT和NPOT/" title="Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）">http://yoursite.com/2018/12/25/纹理POT和NPOT/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/25/lua正则/" rel="next" title="LUA正则表达">
+                <i class="fa fa-chevron-left"></i> LUA正则表达
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/11/2019-02-11-开工大吉collection/" rel="prev" title="大前端">
+                大前端 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于图片在运行的时占用内存大小"><span class="nav-number">1.1.</span> <span class="nav-text">关于图片在运行的时占用内存大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于POT和NPOT"><span class="nav-number">1.2.</span> <span class="nav-text">关于POT和NPOT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cocos中纹理的使用"><span class="nav-number">1.3.</span> <span class="nav-text">cocos中纹理的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个讨论链接："><span class="nav-number">1.4.</span> <span class="nav-text">几个讨论链接：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

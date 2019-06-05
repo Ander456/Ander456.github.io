@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="##前言  我们模拟了光照，发现真的很厉害，加上天空盒子，再加上反射感觉很逼真，但是看着看着你会发现。。不对，没影子。是的，光和影分不开的，有光的地方就会有影子，这才是真实的道理。怎么模拟影子呢？这就要用到前面学到的，帧缓冲-写入纹理。 阴影产生的原因如图，就是因为同一条射线上里的光近的物体挡住了离的远的物体。 我们如何判断一个物体是否在阴影中呢？就是按照图上的，Z Distance也就是在光源">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opengl-阴影(分为定向光的和点光源的)">
+<meta property="og:url" content="http://yoursite.com/2018/09/03/Opengl-阴影/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="##前言  我们模拟了光照，发现真的很厉害，加上天空盒子，再加上反射感觉很逼真，但是看着看着你会发现。。不对，没影子。是的，光和影分不开的，有光的地方就会有影子，这才是真实的道理。怎么模拟影子呢？这就要用到前面学到的，帧缓冲-写入纹理。 阴影产生的原因如图，就是因为同一条射线上里的光近的物体挡住了离的远的物体。 我们如何判断一个物体是否在阴影中呢？就是按照图上的，Z Distance也就是在光源">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow1.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow2.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow3.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow4.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow5.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow6.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/shadow7.png">
+<meta property="og:updated_time" content="2019-06-05T05:36:21.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Opengl-阴影(分为定向光的和点光源的)">
+<meta name="twitter:description" content="##前言  我们模拟了光照，发现真的很厉害，加上天空盒子，再加上反射感觉很逼真，但是看着看着你会发现。。不对，没影子。是的，光和影分不开的，有光的地方就会有影子，这才是真实的道理。怎么模拟影子呢？这就要用到前面学到的，帧缓冲-写入纹理。 阴影产生的原因如图，就是因为同一条射线上里的光近的物体挡住了离的远的物体。 我们如何判断一个物体是否在阴影中呢？就是按照图上的，Z Distance也就是在光源">
+<meta name="twitter:image" content="http://yoursite.com/images/opengl/shadow1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/03/Opengl-阴影/">
+
+
+
+
+
+  <title>Opengl-阴影(分为定向光的和点光源的) | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/Opengl-阴影/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Opengl-阴影(分为定向光的和点光源的)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T00:00:00+08:00">
+                2018-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opengl/" itemprop="url" rel="index">
+                    <span itemprop="name">opengl</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>##前言</p>
+</blockquote>
+<p>我们模拟了光照，发现真的很厉害，加上天空盒子，再加上反射感觉很逼真，但是看着看着你会发现。。不对，没影子。是的，光和影分不开的，有光的地方就会有影子，这才是真实的道理。怎么模拟影子呢？这就要用到前面学到的，帧缓冲-写入纹理。<br><img src="/images/opengl/shadow1.png" alt="这里写图片描述"></p>
+<p>阴影产生的原因如图，就是因为<strong>同一条射线上里的光近的物体挡住了离的远的物体。</strong></p>
+<p><img src="/images/opengl/shadow2.png" alt="这里写图片描述"><br>我们如何判断一个物体是否在阴影中呢？就是按照图上的，Z Distance也就是在光源方向上的空间来看的。这些Z表示深度，也就是距离光源的距离，如果我们从光源的透视图来渲染场景，并把深度值的结果储存到纹理中会怎样？通过这种方式，我们就能对光源的透视图所见的最近的深度值进行采样。最终，深度值就会显示从光源的透视图下见到的第一个片元了。我们管储存在纹理中的所有这些深度值，<strong>叫做深度贴图（depth map）或阴影贴图</strong>。</p>
+<hr>
+<blockquote>
+<p>##定向光产生的阴影</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">      // 1. Render depth of scene to texture (from light&apos;s perspective)</span><br><span class="line">        // - Get light projection/view matrix.</span><br><span class="line">        glCullFace(GL_FRONT);</span><br><span class="line">        glm::mat4 lightProjection, lightView;</span><br><span class="line">        glm::mat4 lightSpaceMatrix;</span><br><span class="line">        GLfloat near_plane = 1.0f, far_plane = 7.5f;</span><br><span class="line">//        lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane);</span><br><span class="line">        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);</span><br><span class="line">        lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));</span><br><span class="line">        lightSpaceMatrix = lightProjection * lightView;</span><br><span class="line">        // - render scene from light&apos;s point of view</span><br><span class="line">        simpleDepthShader.use();</span><br><span class="line">        glUniformMatrix4fv(glGetUniformLocation(simpleDepthShader.ID, &quot;lightSpaceMatrix&quot;), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));</span><br><span class="line">        </span><br><span class="line">        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);</span><br><span class="line">        glClear(GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        RenderScene(simpleDepthShader);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, 0);</span><br><span class="line">        </span><br><span class="line">        // Reset viewport</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        glCullFace(GL_BACK);</span><br><span class="line">        </span><br><span class="line">        // 2. render scene as normal using the generated depth/shadow map</span><br><span class="line">        // --------------------------------------------------------------</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        shader.use();</span><br><span class="line">        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);</span><br><span class="line">        glm::mat4 view = camera.GetViewMatrix();</span><br><span class="line">        shader.setMat4(&quot;projection&quot;, projection);</span><br><span class="line">        shader.setMat4(&quot;view&quot;, view);</span><br><span class="line">        // set light uniforms</span><br><span class="line">        shader.setVec3(&quot;viewPos&quot;, camera.Position);</span><br><span class="line">        shader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        shader.setMat4(&quot;lightSpaceMatrix&quot;, lightSpaceMatrix);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, woodTexture);</span><br><span class="line">        glActiveTexture(GL_TEXTURE1);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, depthMap);</span><br><span class="line">        RenderScene(shader);</span><br><span class="line">        </span><br><span class="line">        // Render Depth map to quad</span><br><span class="line">        debugDepthQuad.use();</span><br><span class="line">        glUniform1f(glGetUniformLocation(debugDepthQuad.ID, &quot;near_plane&quot;), near_plane);</span><br><span class="line">        glUniform1f(glGetUniformLocation(debugDepthQuad.ID, &quot;far_plane&quot;), far_plane);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, depthMap);</span><br><span class="line">//        RenderQuad(); 这是把那个深度贴图渲染出来的方法</span><br></pre></td></tr></table></figure>
+
+<p>看代码就知道了，步骤分为：</p>
+<ol>
+<li>先从光源空间渲染一下场景，然后开一个帧缓冲，把渲染都写到纹理上</li>
+<li>在视角空间按照以往的步骤渲染场景采样上面的深度图</li>
+</ol>
+<p><strong>glm::ortho 是因为是定向光</strong></p>
+<p><strong>深度图</strong><br><img src="/images/opengl/shadow3.png" alt="这里写图片描述"></p>
+<p><strong>根据深度图的渲染场景</strong><br><img src="/images/opengl/shadow4.png" alt="这里写图片描述"></p>
+<p><strong>普通渲染场景中计算阴影的部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">float ShadowCalculation(vec4 fragPosLightSpace, float bias)</span><br><span class="line">&#123;</span><br><span class="line">    // perform perspective divide</span><br><span class="line">    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;</span><br><span class="line">    // transform to [0,1] range</span><br><span class="line">    projCoords = projCoords * 0.5 + 0.5;</span><br><span class="line">    // get closest depth value from light&apos;s perspective (using [0,1] range fragPosLight as coords)</span><br><span class="line">    float closestDepth = texture(shadowMap, projCoords.xy).r;</span><br><span class="line">    // get depth of current fragment from light&apos;s perspective</span><br><span class="line">    float currentDepth = projCoords.z;</span><br><span class="line">    // check whether current frag pos is in shadow</span><br><span class="line">//    float shadow = currentDepth - bias &gt; closestDepth  ? 1.0 : 0.0; // use pcf not directly compare</span><br><span class="line">    // PCF</span><br><span class="line">    float shadow = 0.0;</span><br><span class="line">    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);</span><br><span class="line">    for(int x = -1; x &lt;= 1; ++x)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int y = -1; y &lt;= 1; ++y)</span><br><span class="line">        &#123;</span><br><span class="line">            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;</span><br><span class="line">            shadow += currentDepth - bias &gt; pcfDepth  ? 1.0 : 0.0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    shadow /= 9.0;</span><br><span class="line">    </span><br><span class="line">    if(projCoords.z &gt; 1.0)</span><br><span class="line">        shadow = 0.0;</span><br><span class="line">    return shadow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    vec3 color = texture(diffuseTexture, fs_in.TexCoords).rgb;</span><br><span class="line">    vec3 normal = normalize(fs_in.Normal);</span><br><span class="line">    vec3 lightColor = vec3(0.3);</span><br><span class="line">    // ambient</span><br><span class="line">    vec3 ambient = 0.3 * color;</span><br><span class="line">    // diffuse</span><br><span class="line">    vec3 lightDir = normalize(lightPos - fs_in.FragPos);</span><br><span class="line">    float diff = max(dot(lightDir, normal), 0.0);</span><br><span class="line">    vec3 diffuse = diff * lightColor;</span><br><span class="line">    // specular</span><br><span class="line">    vec3 viewDir = normalize(viewPos - fs_in.FragPos);</span><br><span class="line">    vec3 reflectDir = reflect(-lightDir, normal);</span><br><span class="line">    float spec = 0.0;</span><br><span class="line">    vec3 halfwayDir = normalize(lightDir + viewDir);</span><br><span class="line">    spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);</span><br><span class="line">    vec3 specular = spec * lightColor;</span><br><span class="line">    // calculate shadow</span><br><span class="line">    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);</span><br><span class="line">    float shadow = ShadowCalculation(fs_in.FragPosLightSpace, bias);</span><br><span class="line">    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;</span><br><span class="line">    </span><br><span class="line">    FragColor = vec4(lighting, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于bias是为了解决阴影失真问题</strong><br><img src="/images/opengl/shadow5.png" alt="这里写图片描述"><br>使用了偏移量后，所有采样点都获得了比表面深度更小的深度值，这样整个表面就正确地被照亮，没有任何阴影。</p>
+<p><strong>关于PCF就是为了让阴影更圆润</strong></p>
+<hr>
+<hr>
+<hr>
+<blockquote>
+<p>###点光源</p>
+</blockquote>
+<p><img src="/images/opengl/shadow6.png" alt="这里写图片描述"></p>
+<p>对于深度贴图，我们需要从一个点光源的所有渲染场景，普通2D深度贴图不能工作；如果我们使用立方体贴图会怎样？因为立方体贴图可以储存6个面的环境数据，它可以将整个场景渲染到立方体贴图的每个面上，把它们当作点光源四周的深度值来采样。</p>
+<p><strong>生成深度贴图的方式和前面的一样只不过换成了立方体贴图了</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">// 0. create depth cubemap transformation matrices</span><br><span class="line">        // -----------------------------------------------</span><br><span class="line">        float near_plane = 1.0f;</span><br><span class="line">        float far_plane  = 25.0f;</span><br><span class="line">        glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);</span><br><span class="line">        std::vector&lt;glm::mat4&gt; shadowTransforms;</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        </span><br><span class="line">        // 1. Render depth of scene to texture (from light&apos;s perspective)</span><br><span class="line">        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);</span><br><span class="line">        glClear(GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        simpleDepthShader.use();</span><br><span class="line">        for (unsigned int i = 0; i &lt; 6; ++i)</span><br><span class="line">            simpleDepthShader.setMat4(&quot;shadowMatrices[&quot; + std::to_string(i) + &quot;]&quot;, shadowTransforms[i]);</span><br><span class="line">        simpleDepthShader.setFloat(&quot;far_plane&quot;, far_plane);</span><br><span class="line">        simpleDepthShader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        RenderScene(simpleDepthShader);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, 0);</span><br><span class="line">        </span><br><span class="line">        // 2. render scene as normal using the generated depth/shadow map</span><br><span class="line">        // --------------------------------------------------------------</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        shader.use();</span><br><span class="line">        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);</span><br><span class="line">        glm::mat4 view = camera.GetViewMatrix();</span><br><span class="line">        shader.setMat4(&quot;projection&quot;, projection);</span><br><span class="line">        shader.setMat4(&quot;view&quot;, view);</span><br><span class="line">        // set lighting uniforms</span><br><span class="line">        shader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        shader.setVec3(&quot;viewPos&quot;, camera.Position);</span><br><span class="line">        shader.setInt(&quot;shadows&quot;, shadows); // enable/disable shadows by pressing &apos;SPACE&apos;</span><br><span class="line">        shader.setFloat(&quot;far_plane&quot;, far_plane);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, woodTexture);</span><br><span class="line">        glActiveTexture(GL_TEXTURE1);</span><br><span class="line">        glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);</span><br><span class="line">        RenderScene(shader);</span><br></pre></td></tr></table></figure>
+
+<p>看代码 分为三个步骤：</p>
+<p>0：创建立方体贴图矩阵 也就是从立方体的六个面的空间来着手<br>1： 渲染立方体深度贴图<br>2：从照相机空间也就是我们的视角空间渲染场景按照往常</p>
+<p><img src="/images/opengl/shadow7.png" alt="这里写图片描述"></p>
+<p>相较平行光阴影shader最大的不同在于多了一个geometry-shader几何着色器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#version 330 core</span><br><span class="line">layout (triangles) in;</span><br><span class="line">layout (triangle_strip, max_vertices=18) out;</span><br><span class="line"></span><br><span class="line">uniform mat4 shadowMatrices[6];</span><br><span class="line"></span><br><span class="line">out vec4 FragPos; // FragPos from GS (output per emitvertex)</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    for(int face = 0; face &lt; 6; ++face)</span><br><span class="line">    &#123;</span><br><span class="line">        gl_Layer = face; // built-in variable that specifies to which face we render.</span><br><span class="line">        for(int i = 0; i &lt; 3; ++i) // for each triangle&apos;s vertices</span><br><span class="line">        &#123;</span><br><span class="line">            FragPos = gl_in[i].gl_Position;</span><br><span class="line">            gl_Position = shadowMatrices[face] * FragPos;</span><br><span class="line">            EmitVertex();</span><br><span class="line">        &#125;</span><br><span class="line">        EndPrimitive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>几何着色器有一个内建变量叫做gl_Layer，它指定发散出基本图形送到立方体贴图的哪个面。当不管它时，几何着色器就会像往常一样把它的基本图形发送到输送管道的下一阶段，但当我们更新这个变量就能控制每个基本图形将渲染到立方体贴图的哪一个面。当然这只有当我们有了一个附加到激活的帧缓冲的立方体贴图纹理才有效：</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2018/09/03/Opengl-阴影/" title="Opengl-阴影(分为定向光的和点光源的)">http://yoursite.com/2018/09/03/Opengl-阴影/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/02/Opengl-实例化/" rel="next" title="Opengl-实例化(不知道为啥叫实例化，感觉应该叫一次批量渲染)">
+                <i class="fa fa-chevron-left"></i> Opengl-实例化(不知道为啥叫实例化，感觉应该叫一次批量渲染)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/04/Opengl-法线贴图/" rel="prev" title="Opengl-法线贴图(用来细化表面的表现表现的凹凸)">
+                Opengl-法线贴图(用来细化表面的表现表现的凹凸) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

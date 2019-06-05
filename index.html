@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="develop">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Alex&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alex&#39;s Blog">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/">
+
+
+
+
+
+  <title>Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/09/前端为什么会有service层/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/09/前端为什么会有service层/" itemprop="url">前端为什么会有service层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-09T00:00:00+08:00">
+                2019-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="疑问？"><a href="#疑问？" class="headerlink" title="疑问？"></a>疑问？</h2><p>今天再cnode社区看到了一个问题</p>
+<blockquote>
+</blockquote>
+<p>   用户——&gt;Client(浏览器)——&gt;service(用来请求后端的数据)——&gt;backend，其中client和service是一体的。遇到一个问题，backend的数据返回给了service，service把数据返回给client，由于client的网速很慢，导致用户看到了client报出的超时错误。</p>
+<ul>
+<li>为什么需要service层（我们老大解释说，为了统一。还能避免跨域请求的问题）；</li>
+<li>client和service的代码是一体的，一个服务，它的代码怎么知道哪些是在浏览器执行，哪些是在node执行呢？</li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>有不好老哥给出了回复<br>比如说BFF粘合层的出现等<br>看到了一个很好的回答特此记录一下</p>
+<blockquote>
+<p>首先要明确一点是：一千个系统有一千种架构，都是因地制宜的。并不是说有一个万能架构可以套用在所有系统上，选择最适合的架构设计来解决实际问题才是合理的。<br>前端和后端、客户端与服务端，他们都是彼此相对存在的，一个名字在不同的环境下可能代表不同的东西。比如对于广义上的服务端来说，可以采用MVC思想来设计，那么View其实是可以看做是服务端的前端的；再看广义上的客户端，比如用Angular开发的网站，HTML模板部分可以看做是前端，而数据处理和HTTP通信的部分可以看做是后端；又看通常的微服务的设计上，提供接口的可以称为服务端，调用接口的不管他是一个APP、网页还是另一个微服务，我们也都可以在这种语境下称它为客户端。<br>楼主描述的应该就是在网站客户端系统内的语境下，页面样式部分是“client”，数据处理与HTTP请求的部分是“service”，这只是抽象概念上的名称而已，实际上所有代码都是在浏览器上执行的，没有在node上执行的，并不是说提到“service”就一定指的是广义上在服务器上跑的哪种Web服务。<br>拥有多个客户端产品的企业，可能会在不同客户端上应用不同的中间件，比如不同的认证策略，但是同一个核心功能又可能需要同时提供给多个客户端，那么传统的做法是在服务端上给每一个客户端写一个单独的接口，这样在小规模项目上是合理的，但是项目规模大了之后，特别是不同客户端由不同团队运营的情况下，服务端接口的复杂度会变得非常高，解决这种复杂度的一种思路就是讲不同的部分移交给各端团队自行处理，服务端只提供公共业务，而移出来的部分又往往不适合在客户端直接做，还是需要在服务器上做，那么API Gateway的概念就出来了。<br>每个客户端都可以设立一个自己的API Gateway，上面可以挂载这个客户端的业务需要用到的中间件，比如身份认证，后面是直接映射到通用服务端的接口，适用于简单的业务拆分场景。<br>如果业务拆分场景比较复杂，比如客户端希望一个页面上的数据用一个接口就全拿到，但这些数据可能在不同的服务端系统上，这时候就可以采用BFF的思想，专门为这个客户端做一个后端，后端把底层多个服务端的接口数据聚合成一个接口提供给客户端。<br>以上都是在有实际需求的情况下选用合适的架构思想，并不是说最好所有项目都要有Service层，对于某些企业的业务场景来说，业务可能主要在客户端上，比如游戏、工具型应用等，对于他们来说其实是不需要有一个真正意义上的服务端的，往往只是需要一个云端的存储空间而已。</p>
+</blockquote>
+<p>自己稍微总结下就是：<br>BFF层是随着客户端类型的增加不断演化而来的<br>可能原来只提供PC或者web然后又增加了移动端等等，这些不同的客户端其实现实中需要的是不同的接口，或者说接口会有差异。如果在每个服务器上都提供那会是个灾难的选择。<br>而如果服务器提供只提供核心的服务，这些差异化的东西抽离出一个层面来处理就方便很多<br>无论是叫service还是gate其实都是为了实现这个目的而已</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/11/2019-02-11-开工大吉collection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/11/2019-02-11-开工大吉collection/" itemprop="url">大前端</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-11T00:00:00+08:00">
+                2019-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id><a href="#" class="headerlink" title></a><img src="/images/frontend/es.png" alt="es新特性"></h2><h2 id="-1"><a href="#-1" class="headerlink" title></a><img src="/images/frontend/javascript.png" alt="javascript"></h2><h2 id="-2"><a href="#-2" class="headerlink" title></a><img src="/images/frontend/jsreg.png" alt="jsreg"></h2><h2 id="-3"><a href="#-3" class="headerlink" title></a><img src="/images/frontend/vue.png" alt="vue"></h2><h2 id="-4"><a href="#-4" class="headerlink" title></a><img src="/images/frontend/vuex.png" alt="vuex"></h2><h2 id="-5"><a href="#-5" class="headerlink" title></a><img src="/images/frontend/react.png" alt="react"></h2><p><img src="/images/frontend/redux.png" alt="redux"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/25/纹理POT和NPOT/" itemprop="url">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
+<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
+<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
+<blockquote>
+<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
+</blockquote>
+<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
+<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/lua正则/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/25/lua正则/" itemprop="url">LUA正则表达</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##LUA正则表达</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ul>
+<li>x: (where x is not one of the magic characters ^$()%.[]*+-?) represents the character x itself.</li>
+<li>.: (a dot) represents all characters.</li>
+<li>%a: represents all letters.</li>
+<li>%c: represents all control characters.</li>
+<li>%d: represents all digits.</li>
+<li>%l: represents all lowercase letters.</li>
+<li>%p: represents all punctuation characters.</li>
+<li>%s: represents all space characters.</li>
+<li>%u: represents all uppercase letters.</li>
+<li>%w: represents all alphanumeric characters.</li>
+<li>%x: represents all hexadecimal digits.</li>
+<li>%z: represents the character with representation 0.</li>
+<li>%x: (where x is any non-alphanumeric character) represents the character x</li>
+</ul>
+<h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><p><code>string.gsub (s, pattern, repl [, n])</code></p>
+<ul>
+<li>s 目标字符串</li>
+<li>pattern 规则（也就是上面的那些）</li>
+<li>repl 替换字符串 最常用的是 作为string ex: “” 或者 “%n” 这里n可以是1-9 %几的意思就是匹配到的第几组也可以理解为第几个括号里匹配到的内容</li>
+<li>n就是要执行几次正则匹配替换</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">s=&quot;先来最基础简单的&quot;</span><br><span class="line">x = string.gsub(s,&quot;基础简单&quot;,&quot;复杂困难&quot;) --将&quot;基础简单&quot;替换成&quot;复杂困难&quot;</span><br><span class="line">--&gt; x = &quot;先来最复杂困难的&quot;</span><br><span class="line"></span><br><span class="line">s=&quot;多次替换数字123,多次替换数字321&quot;</span><br><span class="line">x = string.gsub(s,&quot;%d+&quot;,&quot;lalala&quot;) --将数字替换成&quot;lalala&quot;</span><br><span class="line">--&gt; x = &quot;多次替换数字lalala,多次替换数字lalala&quot;</span><br><span class="line"></span><br><span class="line">s=&quot;本末&amp;倒置，开始=逆转&quot;</span><br><span class="line">x = string.gsub(s,&quot;(.+)&amp;(.+)，(.+)=(.+)&quot;,&quot;%3%2%4%1&quot;) --一次匹配下返回括号内四个值，并且排列后替换整个字符串</span><br><span class="line">--&gt; x = &quot;开始倒置逆转本末&quot;</span><br><span class="line"></span><br><span class="line">%1-%4相当于临时变量，将临时变量赋予括号内的值并且将整个字符串替换成临时排列后的变量。</span><br><span class="line">%1 = 本末，%2 = 倒置，%3=开始，%4=逆转，而%0则是等于整个字符串：本末&amp;倒置，开始=逆转</span><br><span class="line">***从这里看出来了规则里的括号()就是%n的替换第几个括号就是n几***</span><br><span class="line"></span><br><span class="line">s=&quot;hello string test world&quot;</span><br><span class="line">x = string.gsub(s,&quot;(%w+)%s*(%w+)&quot;,&quot;%1&quot;,1) --一次匹配返回两个值，将这两个替换成第一个值，只执行一次</span><br><span class="line">--&gt; x = &quot;hello test world&quot;</span><br><span class="line">这里最后的参数是1那么表示这次正则替换我们只执行一次，什么是执行一次呢？</span><br><span class="line">这里&quot;hello string test world&quot;我们定义的查找规则是&quot;(%w+)%s*(%w+)&quot;也就是 &quot;字符空格字符&quot; </span><br><span class="line">那我们按照规则去s里查找一次得到的结果是找到了并且返回了&quot;hello string&quot;。这，对这就是一次了。如果我们不填1或者写成2那就是要全匹配完或者匹配两次，就会再从s串里接着找，这次我们找到的是&quot;test world&quot;。对的，这就是第二次了。然后每次执行括号里的就是%n，所以上面定义的只执行一次匹配替换，那么我们就按照上面说的执行一次的结果来：</span><br><span class="line">1次的结果是&quot;hello string&quot;然后%1对照&quot;(%w+)%s*(%w+)&quot;第一个括号是 hello %2是 string</span><br><span class="line">然后repl是&quot;%1&quot;也就是替换的字符串是%1也就是hello，那么结果有了，就是把这第一次找到的hello string 替换为hello 然后我们不进行往后的正则查找匹配替换了，到此为止。所以结果就是hello test world。</span><br><span class="line"></span><br><span class="line">s=&quot;hello string test world&quot;</span><br><span class="line">x = string.gsub(s,&quot;(%w+)%s*(%w+)&quot;,&quot;%0 %0&quot;,1) --匹配成功后将多复制一次，只执行一次</span><br><span class="line">--&gt; x = &quot;hello string hello string test world&quot;</span><br><span class="line">这个同理如上，只不过 repl变成了&quot;%0 %0&quot;其实就是连着输出两次的意思没啥的</span><br><span class="line">这里匹配查找一次的结果是:</span><br><span class="line">%1=hello %2=string %0就是连起来 hello string</span><br><span class="line">然后repl是&quot;%0 %0&quot; 那么就是 hello string hello string</span><br><span class="line">所以结果就是把第一次匹配到的内容 hello string 变成了 hello string hello string</span><br><span class="line">那么此时的s变成了&quot;hello string hello string test world&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><code>string.match (s, pattern [, init])</code></p>
+<ul>
+<li>s 目标字符串</li>
+<li>pattern 查询匹配规则</li>
+<li>可选init表示匹配字符串的起始索引默认为1<br>在字符串s中匹配pattern，如果匹配失败返回nil。否则，当pattern中没有分组时，返回第一个匹配到的子串；<strong>当pattern中有分组时，返回第一个匹配到子串的分组，多个分组就返回多个</strong>。
+也就是当有小括号()分组的时候就有多个返回值了</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s, func = string.match(&quot;static bool getBoolean(const char *key, bool defaultValue = false);&quot;, &quot;(.+[ *])([^ ]+)[ ]*%(&quot;)</span><br><span class="line">print(s, func)</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/Opengl-立方体贴图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/12/Opengl-立方体贴图/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T16:57:25+08:00">
+                2018-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>立方体贴图就是一个包含了6个2D纹理的纹理，每个2D纹理都组成了立方体的一个面：一个有纹理的立方体。你可能会奇怪，这样一个立方体有什么用途呢？为什么要把6张纹理合并到一张纹理中，而不是直接使用6个单独的纹理呢？立方体贴图有一个非常有用的特性，它可以通过一个方向向量来进行索引/采样。假设我们有一个1x1x1的单位立方体，方向向量的原点位于它的中心。使用一个橘黄色的方向向量来从立方体贴图上采样一个纹理值会像是这样：<br><img src="/images/opengl/cubemap1.png" alt="这里写图片描述"></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">unsigned int loadCubemap(vector&lt;std::string&gt; faces)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int textureID;</span><br><span class="line">    glGenTextures(1, &amp;textureID);</span><br><span class="line">    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);</span><br><span class="line"></span><br><span class="line">    int width, height, nrChannels;</span><br><span class="line">    for (unsigned int i = 0; i &lt; faces.size(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = stbi_load(faces[i].c_str(), &amp;width, &amp;height, &amp;nrChannels, 0);</span><br><span class="line">        if (data)</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, </span><br><span class="line">                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data</span><br><span class="line">            );</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            std::cout &lt;&lt; &quot;Cubemap texture failed to load at path: &quot; &lt;&lt; faces[i] &lt;&lt; std::endl;</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);</span><br><span class="line"></span><br><span class="line">    return textureID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于反射</strong><br><img src="/images/opengl/cubemap2.png" alt="这里写图片描述"><br>我们根据观察方向向量I¯和物体的法向量N¯，来计算反射向量R¯。我们可以使用GLSL内建的reflect函数来计算这个反射向量。最终的R¯向量将会作为索引/采样立方体贴图的方向向量，返回环境的颜色值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    Normal = mat3(transpose(inverse(model))) * aNormal;</span><br><span class="line">    Position = vec3(model * vec4(aPos, 1.0));</span><br><span class="line">    gl_Position = projection * view * model * vec4(aPos, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于折射</strong><br><img src="/images/opengl/cubemap3.png" alt="这里写图片描述"><br>我们有一个观察向量I¯，一个法向量N¯，而这次是折射向量R¯。可以看到，观察向量的方向轻微弯曲了。弯折后的向量R¯将会用来从立方体贴图中采样。</p>
+<p>折射可以使用GLSL的内建refract函数来轻松实现，它需要一个法向量、一个观察方向和两个材质之间的折射率(Refractive Index)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;             </span><br><span class="line">    float ratio = 1.00 / 1.52;</span><br><span class="line">    vec3 I = normalize(Position - cameraPos);</span><br><span class="line">    vec3 R = refract(I, normalize(Normal), ratio);</span><br><span class="line">    FragColor = vec4(texture(skybox, R).rgb, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：<br><img src="/images/opengl/cubemap4.png" alt="这里写图片描述"></p>
+<p><strong>可以看到通过立方体贴图我们实现了天空盒子，一种很远你摄像机怎么移动都不会动的效果</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/2018-11-23-lua_iterator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/23/2018-11-23-lua_iterator/" itemprop="url">Lua Iterator</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T00:00:00+08:00">
+                2018-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于工作的关系其实我平时写Lua还是很多的，然而一个偶然的机会发现了其实我对Lua的迭代的认识还不够，这里记录一下。</p>
+<p><strong>READ THE MANUAL</strong><br>强调一下，一定要看守手册<a href="http://www.lua.org/manual/5.1/manual.html#pdf-pairs" target="_blank" rel="noopener">Lua5.1手册</a></p>
+<ol>
+<li>我们来看下Lua中的For</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">The for statement has two forms: one numeric and one generic.</span><br><span class="line"></span><br><span class="line">The numeric for loop repeats a block of code while a control variable runs through an arithmetic progression. It has the following syntax:</span><br><span class="line"></span><br><span class="line">	stat ::= for Name `=´ exp `,´ exp [`,´ exp] do block end</span><br><span class="line">The block is repeated for name starting at the value of the first exp, until it passes the second exp by steps of the third exp. More precisely, a for statement like</span><br><span class="line"></span><br><span class="line">     for v = e1, e2, e3 do block end</span><br><span class="line">is equivalent to the code:</span><br><span class="line"></span><br><span class="line">     do</span><br><span class="line">       local var, limit, step = tonumber(e1), tonumber(e2), tonumber(e3)</span><br><span class="line">       if not (var and limit and step) then error() end</span><br><span class="line">       while (step &gt; 0 and var &lt;= limit) or (step &lt;= 0 and var &gt;= limit) do</span><br><span class="line">         local v = var</span><br><span class="line">         block</span><br><span class="line">         var = var + step</span><br><span class="line">       end</span><br><span class="line">     end</span><br><span class="line">Note the following:</span><br><span class="line"></span><br><span class="line">All three control expressions are evaluated only once, before the loop starts. They must all result in numbers.</span><br><span class="line">var, limit, and step are invisible variables. The names shown here are for explanatory purposes only.</span><br><span class="line">If the third expression (the step) is absent, then a step of 1 is used.</span><br><span class="line">You can use break to exit a for loop.</span><br><span class="line">The loop variable v is local to the loop; you cannot use its value after the for ends or is broken. If you need this value, assign it to another variable before breaking or exiting the loop.</span><br><span class="line">The generic for statement works over functions, called iterators. On each iteration, the iterator function is called to produce a new value, stopping when this new value is nil. The generic for loop has the following syntax:</span><br><span class="line"></span><br><span class="line">	stat ::= for namelist in explist do block end</span><br><span class="line">	namelist ::= Name &#123;`,´ Name&#125;</span><br><span class="line">A for statement like</span><br><span class="line"></span><br><span class="line">     for var_1, ···, var_n in explist do block end</span><br><span class="line">is equivalent to the code:</span><br><span class="line"></span><br><span class="line">     do</span><br><span class="line">       local f, s, var = explist</span><br><span class="line">       while true do</span><br><span class="line">         local var_1, ···, var_n = f(s, var)</span><br><span class="line">         var = var_1</span><br><span class="line">         if var == nil then break end</span><br><span class="line">         block</span><br><span class="line">       end</span><br><span class="line">     end</span><br><span class="line">Note the following:</span><br><span class="line"></span><br><span class="line">explist is evaluated only once. Its results are an iterator function, a state, and an initial value for the first iterator variable.</span><br><span class="line">f, s, and var are invisible variables. The names are here for explanatory purposes only.</span><br><span class="line">You can use break to exit a for loop.</span><br><span class="line">The loop variables var_i are local to the loop; you cannot use their values after the for ends. If you need these values, then assign them to other variables before breaking or exiting the loop.</span><br></pre></td></tr></table></figure>
+
+<p>可以得出结论：</p>
+<ul>
+<li>for有两种格式<ol>
+<li>数字类型</li>
+<li>泛型</li>
+</ol>
+</li>
+<li>泛型依靠迭代函数</li>
+</ul>
+<p>数字类型的其实和其他语言没啥区别，我们要看的是泛型的迭代器</p>
+<h3 id="LUA的泛型For迭代器"><a href="#LUA的泛型For迭代器" class="headerlink" title="LUA的泛型For迭代器"></a>LUA的泛型For迭代器</h3><p>泛型 for 在自己内部保存迭代函数，实际上它保存三个值：迭代函数、状态常量、控制变量。<br>泛型 for 迭代器提供了集合的 key/value 对，语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for k, v in pairs(t) do</span><br><span class="line">    print(k, v)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>执行过程：</p>
+<ul>
+<li>首先，初始化，计算in后面表达式的值，表达式应该返回泛型 for 需要的三个值：迭代函数、状态常量、控制变量；与多值赋值一样，如果表达式返回的结果个数不足三个会自动用nil补足，多出部分会被忽略。</li>
+<li>第二，将状态常量和控制变量作为参数调用迭代函数（注意：对于for结构来说，状态常量没有用处，仅仅在初始化时获取他的值并传递给迭代函数）。</li>
+<li>第三，将迭代函数返回的值赋给变量列表。</li>
+<li>第四，如果返回的第一个值为nil循环结束，否则执行循环体。</li>
+<li>第五，回到第二步再次调用迭代函数</li>
+</ul>
+<p>分析：</p>
+<ul>
+<li>状态常量通过常量字眼我们就知道了它是不变的最终条件，而控制变量其实就是我们迭代器需要的第一个初值 iterator functions .Its results are an iterator function, a state, and an initial value for the first iterator variable.</li>
+<li>k, v 就是我们for迭代器每次迭代返回的值</li>
+</ul>
+<h3 id="无状态迭代器-和-有状态迭代器"><a href="#无状态迭代器-和-有状态迭代器" class="headerlink" title="无状态迭代器 和 有状态迭代器"></a>无状态迭代器 和 有状态迭代器</h3><p><strong>无状态的迭代器是指不保留任何状态的迭代器，因此在循环中我们可以利用无状态迭代器避免创建闭包花费额外的代价。</strong><br>每一次迭代，迭代函数都是用两个变量（状态常量和控制变量）的值作为参数被调用，一个无状态的迭代器只利用这两个值可以获取下一个元素。<br>这种无状态迭代器的典型的简单的例子是ipairs，它遍历数组的每一个元素。<br>以下实例我们使用了一个简单的函数来实现迭代器，实现 数字 n 的平方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function square(iteratorMaxCount,currentNumber)</span><br><span class="line">   if currentNumber&lt;iteratorMaxCount</span><br><span class="line">   then</span><br><span class="line">      currentNumber = currentNumber+1</span><br><span class="line">   return currentNumber, currentNumber*currentNumber</span><br><span class="line">   end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">for i,n in square,3,0</span><br><span class="line">do</span><br><span class="line">   print(i,n)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>分析：</p>
+<ul>
+<li>square就是我们的迭代函数</li>
+<li>iteratorMaxCount就是状态常量</li>
+<li>currentNumber就是控制变量</li>
+<li>这里我们直接通过一函数作为迭代函数而省去了默认提供的迭代函数（会创建闭包）</li>
+<li>可以看到每次迭代，我们的迭代函数的返回值按照多返回值形式赋值给i,n</li>
+</ul>
+<p><strong>很多情况下，迭代器需要保存多个状态信息而不是简单的状态常量和控制变量，最简单的方法是使用闭包，还有一种方法就是将所有的状态信息封装到table内，将table作为迭代器的状态常量，因为这种情况下可以将所有的信息存放在table内，所以迭代函数通常不需要第二个参数。</strong><br>以下实例我们创建了自己的迭代器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">array = &#123;&quot;Lua&quot;, &quot;Tutorial&quot;&#125;</span><br><span class="line"></span><br><span class="line">function elementIterator (collection)</span><br><span class="line">   local index = 0</span><br><span class="line">   local count = #collection</span><br><span class="line">   -- 闭包函数</span><br><span class="line">   return function ()</span><br><span class="line">      index = index + 1</span><br><span class="line">      if index &lt;= count</span><br><span class="line">      then</span><br><span class="line">         --  返回迭代器的当前元素</span><br><span class="line">         return collection[index]</span><br><span class="line">      end</span><br><span class="line">   end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">for element in elementIterator(array)</span><br><span class="line">do</span><br><span class="line">   print(element)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>分析：</p>
+<ul>
+<li>这里我们通过使用匿名函数作为闭包的方式创建了一个迭代函数</li>
+<li>这里我们需要每次迭代都返回当前table中的值故迭代函数返回当前index的值</li>
+</ul>
+<p>这里再举例一个朋友当时遇到的看不懂的问题：<br>PS:这里例子并不好是个bad例子没人这么用没意义迭代函数么有返回值但是我们还是可以尝试解释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function aaa(x)</span><br><span class="line">    local a = x;</span><br><span class="line">    function ccc(y)</span><br><span class="line">        print(y)</span><br><span class="line">    end</span><br><span class="line">    return ccc,a</span><br><span class="line">end</span><br><span class="line">for v in aaa(123) do</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>分析：这里其实就是自己定义了一个迭代器</p>
+<ul>
+<li><p>for in 可以看出是迭代器</p>
+</li>
+<li><p>表达式aaa(123) 返回了一个匿名函数作为得到函数ccc 和一个状态常量 a</p>
+</li>
+<li><p>就像手册里说的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">do</span><br><span class="line">      local f, s, var = explist //这里是表达式的result 迭代函数f 状态常量s 控制量var</span><br><span class="line">      while true do</span><br><span class="line">        local var_1, ···, var_n = f(s, var)</span><br><span class="line">        var = var_1</span><br><span class="line">        if var == nil then break end</span><br><span class="line">        block</span><br><span class="line">      end</span><br><span class="line">    end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次迭代，我们这里其实就是执行了一个print而已</p>
+</li>
+</ul>
+<p>下面我们看一个通常的使用方式GOOD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">local function itor(self, current)</span><br><span class="line">   if current.next and self._header ~= current.next then</span><br><span class="line">      return current.next, current.next.target</span><br><span class="line">   end</span><br><span class="line">end</span><br><span class="line">function xxx:__pairs()</span><br><span class="line">   return itor, self, self._header</span><br><span class="line">end</span><br><span class="line">--usage</span><br><span class="line">for node, anim in pairs(list) do</span><br><span class="line">   local anim_state = anim.state</span><br><span class="line">   if anim_state == STATE_READY then</span><br><span class="line">      anim:play()</span><br><span class="line">   end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>分析：</p>
+<ul>
+<li>我们自己定义迭代函数itor</li>
+<li>我们利用元方法__pairs() 让xxx变成可迭代对象</li>
+<li>使用上我们迭代list (xxx) 返回了一个node和一个anim然后用来使用</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>核心：我们可以自己定义迭代行为，让for in 来帮我们进行迭代</strong></li>
+<li><strong>迭代函数的参数是 状态常量 以及跟着迭代不断变化的 控制变量</strong></li>
+</ul>
+<p><valine></valine></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/一次心血来潮的C程序编译 && makefile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/09/一次心血来潮的C程序编译 && makefile/" itemprop="url">一次心血来潮的C程序编译 && makefile</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-09T00:00:00+08:00">
+                2018-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>想复习下数据结构，所以看了看相关的课程后打算手写一些东西，比如链表或者说其他的常用数据结构。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>MacOSX</li>
+<li>VSCode</li>
+</ul>
+<p>本来打算在xcode上直接写纯C的程序的，但是写了几行就发现。。真鸡儿麻烦啊，而且我xcode用的也不好，各种快捷键也不熟就被劝退了。然后看到公司同事(server)很多都在用VSCode，可能是因为大家都在用mac笔记本的原因装visualstudio基本上就是扯淡，然后vscode也比较不错就采用了这个ide。</p>
+<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><ul>
+<li><p>安装插件<br><img src="/images/makefile/makefile1.png" alt="插件安装"><br>其实也就是这三个<strong>c/c+    c/c++ Clang    CodeRunner</strong> </p>
+</li>
+<li><p>编译环境配置</p>
+<ol>
+<li>vscode下：command+shift+p 调出控制中心 输入Tasks: Configure Task 来配置任务<img src="https://img-blog.csdn.net/20181009171826429?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FsZXgxOTkyYXpo/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><ol start="2">
+<li>vscode调试界面选中齿轮设置按钮 选择c/c++（也就是一开始我们安装的那几个插件提供的）<img src="https://img-blog.csdn.net/20181009172050449?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FsZXgxOTkyYXpo/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br>基本不需要改动就是program也就是运行程序里我改成了alex也就是我的这个程序名，这个随意。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>以上就具备了在vscode下调试c/c++程序的功能了</strong></p>
+<h2 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h2><ul>
+<li>list.h 链表头文件 声明 结构体 以及几个 链表操作方法<img src="/images/makefile/makefile2.png" alt="在这里插入图片描述"></li>
+<li>list.c 链表普通操作方法的实现<img src="/images/makefile/makefile3.png" alt="在这里插入图片描述"></li>
+<li>main.c 入口文件 引入list.h<img src="/images/makefile/makefile4.png" alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="问题暴露"><a href="#问题暴露" class="headerlink" title="问题暴露"></a>问题暴露</h2><p>要想运行一个c的程序必须经过 编译+链接+运行 这三个阶段至于每个阶段都干了什么可以搜索其他相关文文章。这里我开始只是想简单的编译跑一下，那个时候我还没有使用makefile的方式，而是命令行(配置在task中)截图看下：<img src="/images/makefile/makefile5.png" alt="在这里插入图片描述"><br>这样的方式，大家可以看到和我上面写的command有个很大的不同，上面的是make的方式也就是采用makefile，这里这个是直接命令行通过g++来进行编译文件，这个是我参考大佬们来学习的<a href="https://blog.csdn.net/qq_37747262/article/details/81151037" target="_blank" rel="noopener">大佬文章地址</a> 。很简单，就是你当前焦点的文件进行g++ 编译 -g选项是为了debug调试 -o是为了给生成的目标文件重命名。<br>在这样的前提下，我就跑的我的程序，在main.c下按键command+shift+B来编译程序<img src="/images/makefile/makefile6.png" alt="在这里插入图片描述"><br>可以看到报错了，执行了task g++ xxxx -o xxx -g 下面为什么报错，因为insert也好display_list这些标记（方法）都不存在，为什么？这就是我一开始犯错的原因了。这个main.c 以来了list，但是我这里编译命令里并没有如何编译以来的内容，所以造成了这个报错现象。</p>
+<h2 id="解决方案MakeFile"><a href="#解决方案MakeFile" class="headerlink" title="解决方案MakeFile"></a>解决方案MakeFile</h2><p>发现了上面暴露的问题之后，我就开始搜索相关的内容和文章来看如何把以来文件也进行编译。找到了几篇相关的文章<br><a href="https://blog.csdn.net/z896435317/article/details/77948086" target="_blank" rel="noopener">linux+vsCode+makefile – 调试C</a><br><a href="https://www.cnblogs.com/owlman/p/5514724.html" target="_blank" rel="noopener">Makefile简易教程</a><br>我这里是根据第二篇文章进行学习的，第一篇文章给了我启发。</p>
+<h2 id="MakeFile"><a href="#MakeFile" class="headerlink" title="MakeFile"></a>MakeFile</h2><h3 id="一个普通的makefile"><a href="#一个普通的makefile" class="headerlink" title="一个普通的makefile"></a>一个普通的makefile</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">calc: main.c getch.c getop.c stack.c</span><br><span class="line">	gcc -o calc main.c getch.c getop.c stack.c</span><br></pre></td></tr></table></figure>
+
+<p>它主要分成了三个部分，第一行冒号之前的calc，我们称之为目标（target），被认为是这条语句所要处理的对象，具体到这里就是我们所要编译的这个程序calc。冒号后面的部分（main.c getch.c getop.c stack.c），我们称之为依赖关系表，也就是编译calc所需要的文件，<strong>这些文件只要有一个发生了变化，就会触发该语句的第三部分</strong>，我们称其为命令部分，相信你也看得出这就是一条编译命令。现在我们只要将上面这两行语句写入一个名为Makefile或者makefile的文件，然后在终端中输入make命令，就会看到它按照我们的设定去编译程序了。<br>但是这个问题很多<br>ex: 没能解决当我们只修改一个文件时就要全部重新编译的问题<br>ex: 如果我们需要往工程中添加一个.c或.h，可能同时就要再手动为obj常量再添加第一个.o文件，如果这列表很长，代码会非常难看</p>
+<h3 id="一个最终的makefile"><a href="#一个最终的makefile" class="headerlink" title="一个最终的makefile"></a>一个最终的makefile</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cc = gcc</span><br><span class="line">prom = alex</span><br><span class="line">deps = $(shell find ./ -name &quot;*.h&quot;)</span><br><span class="line">src = $(shell find ./ -name &quot;*.c&quot;)</span><br><span class="line">obj = $(src:%.c=%.o) </span><br><span class="line"></span><br><span class="line">$(prom): $(obj)</span><br><span class="line">	$(cc) -o $(prom) $(obj)</span><br><span class="line"></span><br><span class="line">%.o: %.c $(deps)</span><br><span class="line">	$(cc) -g -c $&lt; -o $@</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">	rm -rf $(obj) $(prom)</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下makefile里的特殊符号</p>
+<ul>
+<li>%.o:%.c，这是一个模式规则，表示所有的.o目标都依赖于与它同名的.c文件（当然还有deps中列出的头文件）</li>
+<li>$&lt;代表的是依赖关系表中的第一项（如果我们想引用的是整个关系表，那么就应该使用$^），具体到我们这里就是%.c。</li>
+<li>$@代表的是当前语句的目标，即%.o。这样一来，make命令就会自动将所有的.c源文件编译成同名的.o文件。不用我们一项一项去指定了。</li>
+<li>shell函数主要用于执行shell命令，具体到这里就是找出当前目录下所有的.c和.h文件。</li>
+<li>$(src:%.c=%.o)则是一个字符替换函数，它会将src所有的.c字串替换成.o，实际上就等于列出了所有.c文件要编译的结果</li>
+</ul>
+<h2 id="终于跑起来"><a href="#终于跑起来" class="headerlink" title="终于跑起来"></a>终于跑起来</h2><p>按照makefile的方式编辑好后，在main.c下按键command+shift+B来编译工程<img src="/images/makefile/makefile7.png" alt="在这里插入图片描述"><br>可以看到根据我们编写的makefile逐步处理ex:我们编译alex这个程序需要mian.c list.c … 这里就会逐个编译list.c-&gt;list.o 一次类推，最后生成我们的目标文件-o alex 以来 xxx.o xx.o。<br>同样因为我们在命令里加了-g所以可以在vscode里进行调试（反之我们去掉-g就不能调试了）<img src="/images/makefile/makefile8.png" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/14/无意间看到Pure-Mvc记录下/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/14/无意间看到Pure-Mvc记录下/" itemprop="url">无意间看到Pure-Mvc记录下</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-14T00:00:00+08:00">
+                2018-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/architecture/" itemprop="url" rel="index">
+                    <span itemprop="name">architecture</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Pure-MVC"><a href="#Pure-MVC" class="headerlink" title="Pure-MVC"></a>Pure-MVC</h2><p>###前言###<br>   在学习creator的一些框架的时候看到一些使用了MVC的内容，就在此做个思考和总结。PureMVC-TypeScript版本代码量很少非常容易看懂。</p>
+<h3 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h3><p>开局一张图，内容全靠想<br><img src="/images/mvc/puremvc1.png" alt="这里写图片描述"></p>
+<ul>
+<li><p>很明显的分层设计 Model View Controller</p>
+</li>
+<li><p>但是这三个部分都是单例 都是单例 都是单例 重要的事说三遍</p>
+</li>
+<li><p>要想扩展各式各样的 MVC 要用 对应的中间类</p>
+</li>
+<li><p>Model - Proxy </p>
+</li>
+<li><p>View - Mediator - UI （可以看出来MVC都是单纯的单例Class具体UI什么的都是在Mediator来持有的）</p>
+</li>
+<li><p>Controller - Command</p>
+<p>然后介绍下 这些个中间类</p>
+</li>
+<li><p>Proxy: Model 保存对 Proxy 对象的引用，Proxy 负责操作数据模型，与远程服务通信存取数据。ex:HttpProxy TcpProxy ..</p>
+</li>
+<li><p>Mediator: View 保存对 Mediator 对象的引用 。由 Mediator 对象来操作具体的视图组件，包括：添加事件监听器，发送或接收 Notification ，直接改变视图组件的状态。这样做实现了把视图和控制它的逻辑分离开来。</p>
+</li>
+<li><p>Command: Controller 保存所有 Command 的映射。Command 类是无状态的，只在需要时才被创建。Command 可以获取 Proxy 对象并与之交互，发送 Notification，执行其他的 Command</p>
+<p>这里做一个思考，其实有点顾名思义的感觉，Controller就是一个控制器，和控制器交互的最简单也直白的方法就是命令Command。 </p>
+</li>
+</ul>
+<h3 id="延伸扩展"><a href="#延伸扩展" class="headerlink" title="延伸扩展"></a>延伸扩展</h3><p><img src="/images/mvc/puremvc2.png" alt="这里写图片描述"></p>
+<p>这个图是Pure-MVC的一个全面介绍</p>
+<ul>
+<li>核心层MVC 三个单例</li>
+<li>封装对外对接者Facade，这个单词也就是表面的意思很好理解，就是壳</li>
+<li>然后衍生出的所有Proxy与Mediator之间的通讯都靠Notification观察者模式实现</li>
+<li>Command是核心逻辑与业务的集中地</li>
+</ul>
+<h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><p><img src="/images/mvc/puremvc3.png" alt="这里写图片描述"></p>
+<p>这里贴一张当前我在学习的框架的目录结构</p>
+<ul>
+<li>controller：包含两个目录和一个启动命令文件 boostrap里放了Command以及Model以及View的启动文件 commands下放了所有的command</li>
+<li>model：包含了所有的proxy代理类</li>
+<li>view：包含了所有的 Mediator中间类，由于creator是组件化开发这里多了个component目录存放UI组件（也就是UI都是组件化的了）</li>
+</ul>
+<h3 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a>实例代码</h3><p><img src="/images/mvc/puremvc4.png" alt="这里写图片描述"></p>
+<p><img src="/images/mvc/puremvc5.png" alt="这里写图片描述"></p>
+<p>可以看到组件的UI里在生命周期函数start中通过唯一对外的AppFacade来进行registerMediator也就是让单例View持有的Map数据表里增加一个这个mediator的引用。这个mediator就是参数里new出来的一个。</p>
+<p>然后，在这个StartViewMediator中间类里进行了相关的具体这个UI的相关操作，onRegister在上面registerMediator中就会自动触发。</p>
+<p>注意点：Mediator和Proxy也就是UI的持有者和数据的持有者不应该直接交互，但是这里为什么可以，因为其实实际项目避免不了想拿到某些数据，PureMvc也提供了方便的API，retrieveProxy来获取某一个数据的代理对象从而获取数据操作数据。</p>
+<h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><p>  <a href="http://puremvc.org/" target="_blank" rel="noopener">puremvc</a><br>  <a href="https://github.com/Ander456/skynet-cocos-creator-client" target="_blank" rel="noopener">示例工程git地址</a><br>  <a href="http://m.gad.qq.com/#/article/detail/287236" target="_blank" rel="noopener">一篇很好的文章</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/关于ECS设计以及MVC分层设计和组件化设计的思考和总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/13/关于ECS设计以及MVC分层设计和组件化设计的思考和总结/" itemprop="url">关于ECS设计以及MVC分层设计和组件化设计的思考和总结（这个标题就问你长不长）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T00:00:00+08:00">
+                2018-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ecs/" itemprop="url" rel="index">
+                    <span itemprop="name">ecs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<pre><code>最近工作忙了很多关于设计的事情，用了常用的分层设计MVC也尝试是用了ECS这种设计方式，同时也参考了Unity或者Creator的这种组件化方式。有了很多困惑也有了一些总结。</code></pre></blockquote>
+<p>首先，MVC也好ECS也好他们都是一种编程的范式，或者说你组织代码的方式。然而他们的层面不同，也就是说不是一个层面的东西。</p>
+<ul>
+<li>MVC：用来解决UI交互方面的成熟的经验体系，是一种分层的设计。</li>
+<li>ECS：是一种对象组织的方式，比如继承也是一种处理对象关系的方式。而ECS就是组合的方式来处理对象见关系的，还看到了一种说法：</li>
+</ul>
+<blockquote>
+<p>Entity system architecture derives from an attempt to resolve the<br>problems with the game loop. It addresses the game loop as the core of<br>the game, and pre-supposes that simplifying the game loop is more<br>important than anything else in modern game architecture. More<br>important than separation of the view from the controller</p>
+</blockquote>
+<p>也就是说ECS这种方式目标是用来尝试处理游戏循环问题的。并预先假设简化游戏循环比现代游戏架构中的任何其他东西更重要。比从控制器分离视图更重要。</p>
+<hr>
+<p>同样，还有很多的架构，比如分层设计的系统架构等等。<br>简单的总结来说，他们不是一个层面的，<strong>MVC是一种分层的针对UI交互的设计，而ECS是一种处理对象关系的方式。</strong></p>
+<p>为什么我上面会困惑，就是我把不同层面的东西放到一个平面上来思考讨论了。就像你有一个衣服柜子，用它来放鞋子okay么？是的可以放，但是会不会别扭？会的。这就是我的一些困惑，可能这个例子并不恰当，但是用来说明不是一个层面的东西应该足够了。</p>
+<h2 id="关于数据驱动与解耦的方面"><a href="#关于数据驱动与解耦的方面" class="headerlink" title="关于数据驱动与解耦的方面"></a>关于数据驱动与解耦的方面</h2><p>ECS其实更是解耦的终极方案，处理更复杂问题的一种更好的方案。另一方面MVC并不是不关注数据驱动，想要使用好MVC数据的驱动也是必须的才能更好的解耦。只不过MVC更关于也更适用于UI方面的交互罢了，当然这也是一种经验模型，后来的MVP以及MVVM都是一种优化或者特别场合的提升。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MVC以及ECS不是一个层面的东西所以理论上不会有冲突。<br>至于适用场合，个人感觉：如果涉及ui交互比如某一个界面显示某些东西，同时这个ui可以出发一些事件这种还是MVC更方便一点，因为你用ECS会发现你无从下手，比如你是单独写个view的组件？这个view触发的事件呢？以及这个view所依赖的数据呢？都写到了一起？你会发现写着写着都写到了一起结构很乱。可能目前我并没有找到什么合理的方式。关于ECS的使用，其实目前如果基于creator来开发，并不是纯粹的ECS思想而是类似unity老版本的一种C-S的结合体的组件。什么时候以及什么场合使用，个人感觉是GamePlay的场景，</p>
+<blockquote>
+<p>引用wiki的一句话：Gameplay is the pattern defined through the game rules.<br>也就是游戏玩法。</p>
+</blockquote>
+<p>因为游戏的玩法复杂度很高，变化很多，这种时候利用组件的方式去实现游戏玩法，能保证各种玩法的组合，这样使用更加方便贴切。</p>
+<hr>
+<h2 id="PS-补充"><a href="#PS-补充" class="headerlink" title="PS:补充"></a>PS:补充</h2><p>临时有了想法作个补充，我说ECS是一种处理对象之间关系的方式。那MVC呢？这个不是么？我们都是面相对象编程，View是个对象么？Controller是个对象么？这个不是处理对象见关系的么？其实我想回答，是的。我们几乎都在处理各个对象。为了实现某个业务，把各个对象组织起来。好的代码就是轻度耦合实现。<br>但是，我想说，还是重点不同，其实MVC，我们本可以用一个view代码来实现所有，在view的代码里做很多处理控制。我们也能实现一个对象完成业务，可是为了应对频繁变化的需求慢慢演变出了MVC，它是一个解决方案。这就是侧重点以及面向的层面不同。<br>而ECS处理起真真切切的各个对象的时候，就会很自然而然。组合各个对象成某一个或者某一类对象，或者更合理的应该是，组织各种各样的数据？比如position组件，组织x，y坐标数据。这种面向数据的东西，或者说更注重这个数据的东西用ECS这种组件的方式更贴合。这个可能就设计到了为什么用组合而不用继承的这一系列讨论。比如这篇文章：<a href="https://www.richardlord.net/blog/ecs/what-is-an-entity-framework.html" target="_blank" rel="noopener">What is an Entity Component System7</a></p>
+<hr>
+<h2 id="贴一下一些朋友对于ECS和MVC方面的见解"><a href="#贴一下一些朋友对于ECS和MVC方面的见解" class="headerlink" title="贴一下一些朋友对于ECS和MVC方面的见解"></a>贴一下一些朋友对于ECS和MVC方面的见解</h2><p>把ECS按在下层，使用轻MVC模式。首先考虑的问题是如何分层的问题，如果一个属性能够提炼成通过的ECS模型（比如你说的player相关属性），那么我会把这个属性沉淀，做成一个通用的C-S系统。这个系统和其它的系统以后都是以子系统的模式出现，在它的上面才是MVC，这里处理具体的UI交互问题。具体来说我们的应用分为基本的两层，上层用MVC来处理交互，下层用ECS或者其系统来处理各种各样的问题。关于轻MVC模式之所以这么说是因为游戏上的生命周期短，我很少真的去设计完善的MVC模型，基本上是意思到了，达到我心中的代码整洁、解耦清晰同时改起来又方便的时候就可以了。</p>
+<hr>
+<p>过了好久了，偶然看到unity的 tiny project 一个为2d游戏提供的package，其实这个并没什么，但是重要的是它完全使用了ECS的这种模式，然后又给了我一些理解和启发这里补充下。</p>
+<p><strong>看过相面的一些想法和记录就明白其实我原来写的ECS的并不是ECS感觉上更像是组件化而已。</strong></p>
+<p>我们先来看看为什么有这个tiny project<br><img src="/images/ecs/ecs1.png" alt="在这里插入图片描述"><br>很明显，对当前untiy的monobehavior和ECS做了一下对比。<br><strong>引用类型</strong> 和 <strong>值类型</strong><br><strong>数据散到内存的各个地方</strong> 和 <strong>内存紧紧排列</strong><br><strong>在操作期间处理不需要的数据（其实我们需要model的一个数据反而传入了整个model）</strong> 和  <strong>我们只处理需要的数据</strong><br>高下立判，从第二点和第三点上我们就可以看出ECS的提升了对于性能上，内存紧凑跟容易让cpu进行寻址预判，处理只需要的数据更容易解耦复用。</p>
+<p>然后再专业的看一下 ECS的各个结构的意义<br><img src="/images/ecs/ecs2.png" alt="在这里插入图片描述"></p>
+<p>Data Data Data 重要的事情说三遍<br>其实也很好理解，我们从class引用类型换成struct值类型，就像我们写c程序一样，所有的一切都是内存都是数据。</p>
+<ul>
+<li>component就是单纯的数据而已，什么speed | health | name ….等等</li>
+<li>entity 就是一个单纯的一组component而已 并不是什么Object啊 什么你以为的Node啊之类，就是单纯的一组component而已，这里另一个设计概念就是我们的entity不允许同类型的component所以这里用了set</li>
+<li>system就是操作数据而已，就是单纯的操作数据</li>
+</ul>
+<p>这里让我受到启发和解惑的一个例子我觉得一定要举出来看一下<br><img src="/images/ecs/ecs3.png" alt="在这里插入图片描述"><br>这是两个component的例子，一个heath一个sprite2D 很简单，都是struct，都是我们要用的数据，数据，数据再次强调。其实很长时间困扰我的一个问题是：<br>我经常会吧entity当做容器，弄什么都把component集合到这个entity上来，然后在表现一些东西上就会卡住，而这里给我们演示了，Sprite2D的其中一个数据就是Entity 是个image。这个乍看上去怎么怪怪的，就像我的思维，我们只吧entity当做容器，只有entity里才能放component，就是这样才限制了我们。所以这了再次强调，<strong>不要把entity当做容器，很容易让你困惑，就当做一组数据而已就好，就当做一组数据而已就好，就当做一组数据而已就好。那么我们一组数据里放另一组数据行吗？答案当然是和okay啊！就像我们写c程序struct里嵌入一个struct有啥问题么？组合一个有啥问题么？当然没有了。</strong>  当然了，这里image这个entitiy里有啥就得去看它这个struct里都组合了哪些数据了。所以 一切皆Data，一定要理解这一点。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/Opengl-法线贴图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/04/Opengl-法线贴图/" itemprop="url">Opengl-法线贴图(用来细化表面的表现表现的凹凸)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T00:00:00+08:00">
+                2018-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opengl/" itemprop="url" rel="index">
+                    <span itemprop="name">opengl</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/opengl/normalmap1.png" alt="这里写图片描述"></p>
+<p>我们通过这张图可以看出来，使用了法线贴图的物体表面更有细节更逼真，其实这就是发现贴图的作用，没什么钻牛角尖的。</p>
+<p><img src="/images/opengl/normalmap2.png" alt="这里写图片描述"></p>
+<p>其实表面没有凹凸的情况是因为我们把表面一直按照平整来做的，要想突出这个表面的凹凸就要用到法线贴图</p>
+<p><strong>到这里，我们暂停想一下，前面说的几种贴图，漫反射贴图，镜面光贴图，然后再到这个法线贴图。明白了什么？其实很简单，就是我们法线虚拟的和现实的差距就会通过这种贴图的形式来着重表现某一方面的效果。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#version 330 core</span><br><span class="line">out vec4 FragColor;</span><br><span class="line"></span><br><span class="line">in VS_OUT &#123;</span><br><span class="line">    vec3 FragPos;</span><br><span class="line">    vec2 TexCoords;</span><br><span class="line">    vec3 TangentLightPos;</span><br><span class="line">    vec3 TangentViewPos;</span><br><span class="line">    vec3 TangentFragPos;</span><br><span class="line">&#125; fs_in;</span><br><span class="line"></span><br><span class="line">uniform sampler2D diffuseMap;</span><br><span class="line">uniform sampler2D normalMap;</span><br><span class="line"></span><br><span class="line">uniform vec3 lightPos;</span><br><span class="line">uniform vec3 viewPos;</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    // obtain normal from normal map in range [0,1]</span><br><span class="line">    vec3 normal = texture(normalMap, fs_in.TexCoords).rgb;</span><br><span class="line">    // transform normal vector to range [-1,1]</span><br><span class="line">    normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space</span><br><span class="line">    </span><br><span class="line">    // get diffuse color</span><br><span class="line">    vec3 color = texture(diffuseMap, fs_in.TexCoords).rgb;</span><br><span class="line">    // ambient</span><br><span class="line">    vec3 ambient = 0.1 * color;</span><br><span class="line">    // diffuse</span><br><span class="line">    vec3 lightDir = normalize(fs_in.TangentLightPos - fs_in.TangentFragPos);</span><br><span class="line">    float diff = max(dot(lightDir, normal), 0.0);</span><br><span class="line">    vec3 diffuse = diff * color;</span><br><span class="line">    // specular</span><br><span class="line">    vec3 viewDir = normalize(fs_in.TangentViewPos - fs_in.TangentFragPos);</span><br><span class="line">    vec3 reflectDir = reflect(-lightDir, normal);</span><br><span class="line">    vec3 halfwayDir = normalize(lightDir + viewDir);</span><br><span class="line">    float spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);</span><br><span class="line">    </span><br><span class="line">    vec3 specular = vec3(0.2) * spec;</span><br><span class="line">    FragColor = vec4(ambient + diffuse + specular, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个法线贴图的片段着色器，我们可以看到几个关键的部分。</p>
+<ol>
+<li>vec3 normal = texture(normalMap, fs_in.TexCoords).rgb; 我们从法线贴图的纹理中取样像素</li>
+<li>我们从 diffuseMap 中取样 物体纹理图片的原本像素</li>
+<li>然后我们把normal的普通的做了综合得出了最终的FragColor</li>
+</ol>
+<p>这里面还有TagnetFragPos什么的不理解没关系，它们是切线空间的一些概念</p>
+<hr>
+<blockquote>
+<p>###切线空间</p>
+</blockquote>
+<p>法线贴图中的法线向量在切线空间中，法线永远指着正z方向。切线空间是位于三角形表面之上的空间：法线相对于单个三角形的本地参考框架。它就像法线贴图向量的本地空间；它们都被定义为指向正z方向，无论最终变换到什么方向。使用一个特定的矩阵我们就能将本地/切线空寂中的法线向量转成世界或视图坐标，使它们转向到最终的贴图表面的方向。<br>切线空间中的T（tangent），B（Bitangent）与贴图U，V方向一致。 保存方式（T,B,N）</p>
+<hr>
+<p>Normal<br><img src="/images/opengl/normalmap3.png" alt="这里写图片描述"></p>
+<hr>
+<p>T（tangent）<br><img src="/images/opengl/normalmap4.png" alt="这里写图片描述"></p>
+<hr>
+<p> B（Bitangent）  = N*T<br><img src="/images/opengl/normalmap5.png" alt="这里写图片描述"></p>
+<hr>
+<p><strong>最终效果</strong></p>
+<p><img src="/images/opengl/normalmap6.png" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

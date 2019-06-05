@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="###深度测试  深度缓冲：用来存储深度信息的，可以这么理解，在你屏幕上最后留下的裁剪区域你看到的东西其实是有深度的，就像现实世界里一样，有远近这样。然后这个远近的程度信息就存储在了深度缓冲里 深度测试：当深度测试(Depth Testing)被启用的时候，OpenGL会将一个片段的的深度值与深度缓冲的内容进行对比。OpenGL会执行一个深度测试，如果这个测试通过了的话，深度缓冲将会更新为新的深">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opengl-深度测试&amp;&amp;模板测试">
+<meta property="og:url" content="http://yoursite.com/2018/08/28/Opengl-深度测试&&模板测试/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="###深度测试  深度缓冲：用来存储深度信息的，可以这么理解，在你屏幕上最后留下的裁剪区域你看到的东西其实是有深度的，就像现实世界里一样，有远近这样。然后这个远近的程度信息就存储在了深度缓冲里 深度测试：当深度测试(Depth Testing)被启用的时候，OpenGL会将一个片段的的深度值与深度缓冲的内容进行对比。OpenGL会执行一个深度测试，如果这个测试通过了的话，深度缓冲将会更新为新的深">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/opengl/depthstenciltest1.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/depthstenciltest2.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/depthstenciltest3.png">
+<meta property="og:image" content="http://yoursite.com/images/opengl/depthstenciltest3.png">
+<meta property="og:updated_time" content="2019-06-05T05:36:21.195Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Opengl-深度测试&amp;&amp;模板测试">
+<meta name="twitter:description" content="###深度测试  深度缓冲：用来存储深度信息的，可以这么理解，在你屏幕上最后留下的裁剪区域你看到的东西其实是有深度的，就像现实世界里一样，有远近这样。然后这个远近的程度信息就存储在了深度缓冲里 深度测试：当深度测试(Depth Testing)被启用的时候，OpenGL会将一个片段的的深度值与深度缓冲的内容进行对比。OpenGL会执行一个深度测试，如果这个测试通过了的话，深度缓冲将会更新为新的深">
+<meta name="twitter:image" content="http://yoursite.com/images/opengl/depthstenciltest1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/28/Opengl-深度测试&&模板测试/">
+
+
+
+
+
+  <title>Opengl-深度测试&&模板测试 | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/28/Opengl-深度测试&&模板测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Opengl-深度测试&&模板测试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T00:00:00+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opengl/" itemprop="url" rel="index">
+                    <span itemprop="name">opengl</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>###深度测试</p>
+</blockquote>
+<p><strong>深度缓冲</strong>：用来存储深度信息的，可以这么理解，在你屏幕上最后留下的裁剪区域你看到的东西其实是有深度的，就像现实世界里一样，有远近这样。然后这个远近的程度信息就存储在了深度缓冲里</p>
+<p><strong>深度测试</strong>：当深度测试(Depth Testing)被启用的时候，OpenGL会将一个片段的的深度值与深度缓冲的内容进行对比。OpenGL会执行一个深度测试，如果这个测试通过了的话，深度缓冲将会更新为新的深度值。如果深度测试失败了，片段将会被丢弃。</p>
+<p><strong>怎么测试</strong>：
+GL_ALWAYS    永远通过深度测试<br>GL_NEVER    永远不通过深度测试<br>GL_LESS    在片段深度值小于缓冲的深度值时通过测试<br>GL_EQUAL    在片段深度值等于缓冲区的深度值时通过测试<br>GL_LEQUAL    在片段深度值小于等于缓冲区的深度值时通过测试<br>GL_GREATER    在片段深度值大于缓冲区的深度值时通过测试<br>GL_NOTEQUAL    在片段深度值不等于缓冲区的深度值时通过测试<br>GL_GEQUAL    在片段深度值大于等于缓冲区的深度值时通过测试</p>
+<p><strong>使用方法</strong>：
+glEnable(GL_DEPTH_TEST);<br>glDepthFunc(GL_LESS);</p>
+<p>也就是说我们通过glDepthFunc设置了测试方法后，opengl会根据我们设置的来决定测试是否通过。</p>
+<p><strong>测试的是什么呢？</strong><br>其实就是测试的两个片段或者你可以理解为两个像素点在一个位置，一个点处的深度值。通过了，这个像素点的片段就是新的，通不过这个新的就被抛弃。</p>
+<p>举个例子：</p>
+<p>渲染流程：先渲染一个正方体盒子，后渲染地板，</p>
+<p>这张图是glDepthFunc(GL_ALWAYS);的情况下的显示<br><img src="/images/opengl/depthstenciltest1.png" alt="这里写图片描述"></p>
+<p>这张图是glDepthFunc(GL_LESS);的情况下的显示<br><img src="/images/opengl/depthstenciltest2.png" alt="这里写图片描述"></p>
+<p>可以看出来，always下因为一直通过测试，这样新的片段比如地板就会通过测试在同一位置上显示的就是地板了。。所以才会出现那样的现象。虽然我们的顶点数据上地板在后面立方体盒子在上面。但是因为深度测试的原因才会出现如此结果。</p>
+<p><strong>总结</strong>：<strong>深度测试就是用来对比深度（距离相机远度）然后决定片段像素用前面绘制的还是用新绘制的</strong></p>
+<hr>
+<blockquote>
+<p>###模板测试</p>
+</blockquote>
+<p><strong>模板缓冲</strong>：和深度缓冲一样，其实基本上和所有缓冲都一样，顾名思义是用来存放东西，只不过这次这里存放的是一个模板值。你可以想象理解为这里存放了一个值就好</p>
+<p><strong>模板测试</strong>：同样和深度测试一样，模板测试的目的也是为了决定片段的取舍，也就是说，我们在模板测试阶段要根据一个规则利用模板缓冲存的的值来决定前面的片段和后面的片段保留哪个</p>
+<p><strong>测试方法</strong>：
+GL_KEEP    保持当前储存的模板值<br>GL_ZERO    将模板值设置为0<br>GL_REPLACE    将模板值设置为glStencilFunc函数设置的ref值<br>GL_INCR    如果模板值小于最大值则将模板值加1<br>GL_INCR_WRAP    与GL_INCR一样，但如果模板值超过了最大值则归零<br>GL_DECR    如果模板值大于最小值则将模板值减1<br>GL_DECR_WRAP    与GL_DECR一样，但如果模板值小于0则将其设置为最大值<br>GL_INVERT    按位翻转当前的模板缓冲值</p>
+<p>glStencilFunc(GL_EQUAL, 1, 0xFF);  // 测试规则<br>glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //决定如何更新缓冲</p>
+<p><strong>使用方法</strong>：
+glEnable(GL_STENCIL_TEST);<br>glStencilMask(0xFF); // 每一位写入模板缓冲时都保持原样<br>glStencilMask(0x00); // 每一位在写入模板缓冲时都会变成0（禁用写入）</p>
+<p>例子如下：<br><img src="/images/opengl/depthstenciltest3.png" alt="这里写图片描述"></p>
+<p>总结：<strong>模板测试就是用来决定模板缓冲中的值是什么比较规则，然后根据这个规则来取舍一个位置点下的片段的取舍的</strong>。</p>
+<hr>
+<p><strong>核心：无论是深度测试还是模板测试，都是来决定是否抛弃或者是否使用片段像素点颜色的</strong></p>
+<p>好长时间了，突然碰到一个朋友在做裁剪的问题，也用到了模板缓冲这个理念和功能，然后又加深了一下理解这里记录下。</p>
+<p>其实，上面总结的核心 决定是否抛弃或者使用片段像素点颜色 这个很精确，但是有时候很不好理解，举个例子：</p>
+<pre><code>glStencilFunc(GL_ALWAYS, 1, 0xFF); // 所有的片段都应该更新模板缓冲
+glStencilMask(0xFF); // 启用模板缓冲写入</code></pre><p>   想象一下，一个四方形(我们的屏幕）无数像素点(片段）启用缓冲的，现在只要绘制那么这个缓冲就会被写入了对吧？这个时候被绘制的像素点的位置缓冲其实就是1，这里是1。</p>
+<pre><code>glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+glStencilMask(0x00); // 禁止模板缓冲的写入</code></pre><p>我们将模板函数设置为GL_NOTEQUAL，它会保证我们只绘制模板值不为1的部分，也就是核心说的：这次绘制这次操作，只有模板值不为1的部分保留其他的像素点上的片段颜色全部抛弃，是不是很好懂？<br>再次看下这张图<br><img src="/images/opengl/depthstenciltest3.png" alt="这里写图片描述"><br>补充一下colorbuffer也就是经过frag片段着色后的一块缓冲区和深度测试缓冲区，裁剪测试缓冲区，以及帧缓冲区都是一个核心概念，就是一块存放内容的内存而已。<br>继续说，我们将模板函数设置为GL_NOTEQUAL那么这句就决定了一件事要清楚的认识到，我们这次操作这次的绘制只会保留不等于1的部分，记住了是我们这次完整的draw操作(通过shaderuse之后）这次的片段出来到我们的模板测试这（如果我们开启了模板测试）那么这次的所有像素点只会保留位置在模板缓冲中不等于1的部分其他的部分不会绘制，也就是之前1的部分是啥还是啥，现在只有1以外的部分会被我们绘制上东西。明白了吧？<br>再次强调下：glStencilMask(0x00); // 禁止模板缓冲的写入 是为了不让写缓存 就是现在啥样就用啥样的模板测试来对比，这样不就没有干扰了么，因为没有新的东西干扰写入，就用当前的模板缓冲上的值来对比</p>
+<p>PS:补充一些概念再<br>在OpenGL中存在着多种缓冲区，这些缓冲区大致分为：</p>
+<ul>
+<li>颜色缓冲区：用于绘图的缓冲区，它包含了颜色索引或者RGBA颜色数据。</li>
+<li>深度缓冲区：存储每个像素的深度值，当启动深度测试时，片段像素深度值和深度缓冲区深度值进行比较，决定片段哪些像素点数据可以替换到颜色缓冲区中。</li>
+<li>模板缓冲区(Stencil Buffer)：与颜色缓冲区和深度缓冲区类似，模板缓冲区可以为屏幕上的每个像素点保存一个无符号整数值。这个值的具体意义视程序的具体应用而定。在渲染的过程中，可以用这个值与一个预先设定的参考值相比较，根据比较的结果来决定是否更新相应的像素点的颜色值。这个比较的过程被称为模板测试。模板测试发生在透明度测试（alpha test）之后，深度测试（depth test）之前。如果模板测试通过，则相应的像素点更新，否则不更新。就像使用纸板和喷漆一样精确的混图一样，当启动模板测试时，通过模板测试的片段像素点会被替换到颜色缓冲区中，从而显示出来，未通过的则不会保存到颜色缓冲区中，从而达到了过滤的功能。下图描述了模板缓冲区的原理</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2018/08/28/Opengl-深度测试&&模板测试/" title="Opengl-深度测试&&模板测试">http://yoursite.com/2018/08/28/Opengl-深度测试&&模板测试/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/27/Opengl-模型/" rel="next" title="Opengl-模型(告别箱子加载模型)">
+                <i class="fa fa-chevron-left"></i> Opengl-模型(告别箱子加载模型)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/29/Opengl-混合/" rel="prev" title="Opengl-混合(原来不理解的src dst blender总算理解了)">
+                Opengl-混合(原来不理解的src dst blender总算理解了) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

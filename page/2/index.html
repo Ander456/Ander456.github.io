@@ -407,6 +407,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/Opengl-立方体贴图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/01/Opengl-立方体贴图/" itemprop="url">Opengl-立方体贴图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T00:00:00+08:00">
+                2018-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opengl/" itemprop="url" rel="index">
+                    <span itemprop="name">opengl</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>立方体贴图就是一个包含了6个2D纹理的纹理，每个2D纹理都组成了立方体的一个面：一个有纹理的立方体。你可能会奇怪，这样一个立方体有什么用途呢？为什么要把6张纹理合并到一张纹理中，而不是直接使用6个单独的纹理呢？立方体贴图有一个非常有用的特性，它可以通过一个方向向量来进行索引/采样。假设我们有一个1x1x1的单位立方体，方向向量的原点位于它的中心。使用一个橘黄色的方向向量来从立方体贴图上采样一个纹理值会像是这样：<br><img src="/images/opengl/cubemap1.png" alt="这里写图片描述"></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">unsigned int loadCubemap(vector&lt;std::string&gt; faces)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int textureID;</span><br><span class="line">    glGenTextures(1, &amp;textureID);</span><br><span class="line">    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);</span><br><span class="line"></span><br><span class="line">    int width, height, nrChannels;</span><br><span class="line">    for (unsigned int i = 0; i &lt; faces.size(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = stbi_load(faces[i].c_str(), &amp;width, &amp;height, &amp;nrChannels, 0);</span><br><span class="line">        if (data)</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, </span><br><span class="line">                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data</span><br><span class="line">            );</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            std::cout &lt;&lt; &quot;Cubemap texture failed to load at path: &quot; &lt;&lt; faces[i] &lt;&lt; std::endl;</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);</span><br><span class="line"></span><br><span class="line">    return textureID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于反射</strong><br><img src="/images/opengl/cubemap2.png" alt="这里写图片描述"><br>我们根据观察方向向量I¯和物体的法向量N¯，来计算反射向量R¯。我们可以使用GLSL内建的reflect函数来计算这个反射向量。最终的R¯向量将会作为索引/采样立方体贴图的方向向量，返回环境的颜色值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    Normal = mat3(transpose(inverse(model))) * aNormal;</span><br><span class="line">    Position = vec3(model * vec4(aPos, 1.0));</span><br><span class="line">    gl_Position = projection * view * model * vec4(aPos, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关于折射</strong><br><img src="/images/opengl/cubemap3.png" alt="这里写图片描述"><br>我们有一个观察向量I¯，一个法向量N¯，而这次是折射向量R¯。可以看到，观察向量的方向轻微弯曲了。弯折后的向量R¯将会用来从立方体贴图中采样。</p>
+<p>折射可以使用GLSL的内建refract函数来轻松实现，它需要一个法向量、一个观察方向和两个材质之间的折射率(Refractive Index)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;             </span><br><span class="line">    float ratio = 1.00 / 1.52;</span><br><span class="line">    vec3 I = normalize(Position - cameraPos);</span><br><span class="line">    vec3 R = refract(I, normalize(Normal), ratio);</span><br><span class="line">    FragColor = vec4(texture(skybox, R).rgb, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：<br><img src="/images/opengl/cubemap4.png" alt="这里写图片描述"></p>
+<p><strong>可以看到通过立方体贴图我们实现了天空盒子，一种很远你摄像机怎么移动都不会动的效果</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/Opengl-几何着色器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -531,161 +686,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">float points[] = &#123;</span><br><span class="line">        -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // top-left</span><br><span class="line">         0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // top-right</span><br><span class="line">         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right</span><br><span class="line">        -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // top-left 这就一个顶点的数据。。但是经过我们的劫持改变把这里变成了一个房子的形状了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/Opengl-立方体贴图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alex">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alex's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/01/Opengl-立方体贴图/" itemprop="url">Opengl-立方体贴图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T00:00:00+08:00">
-                2018-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/opengl/" itemprop="url" rel="index">
-                    <span itemprop="name">opengl</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>立方体贴图就是一个包含了6个2D纹理的纹理，每个2D纹理都组成了立方体的一个面：一个有纹理的立方体。你可能会奇怪，这样一个立方体有什么用途呢？为什么要把6张纹理合并到一张纹理中，而不是直接使用6个单独的纹理呢？立方体贴图有一个非常有用的特性，它可以通过一个方向向量来进行索引/采样。假设我们有一个1x1x1的单位立方体，方向向量的原点位于它的中心。使用一个橘黄色的方向向量来从立方体贴图上采样一个纹理值会像是这样：<br><img src="/images/opengl/cubemap1.png" alt="这里写图片描述"></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">unsigned int loadCubemap(vector&lt;std::string&gt; faces)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int textureID;</span><br><span class="line">    glGenTextures(1, &amp;textureID);</span><br><span class="line">    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);</span><br><span class="line"></span><br><span class="line">    int width, height, nrChannels;</span><br><span class="line">    for (unsigned int i = 0; i &lt; faces.size(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = stbi_load(faces[i].c_str(), &amp;width, &amp;height, &amp;nrChannels, 0);</span><br><span class="line">        if (data)</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, </span><br><span class="line">                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data</span><br><span class="line">            );</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            std::cout &lt;&lt; &quot;Cubemap texture failed to load at path: &quot; &lt;&lt; faces[i] &lt;&lt; std::endl;</span><br><span class="line">            stbi_image_free(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);</span><br><span class="line"></span><br><span class="line">    return textureID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>关于反射</strong><br><img src="/images/opengl/cubemap2.png" alt="这里写图片描述"><br>我们根据观察方向向量I¯和物体的法向量N¯，来计算反射向量R¯。我们可以使用GLSL内建的reflect函数来计算这个反射向量。最终的R¯向量将会作为索引/采样立方体贴图的方向向量，返回环境的颜色值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    Normal = mat3(transpose(inverse(model))) * aNormal;</span><br><span class="line">    Position = vec3(model * vec4(aPos, 1.0));</span><br><span class="line">    gl_Position = projection * view * model * vec4(aPos, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>关于折射</strong><br><img src="/images/opengl/cubemap3.png" alt="这里写图片描述"><br>我们有一个观察向量I¯，一个法向量N¯，而这次是折射向量R¯。可以看到，观察向量的方向轻微弯曲了。弯折后的向量R¯将会用来从立方体贴图中采样。</p>
-<p>折射可以使用GLSL的内建refract函数来轻松实现，它需要一个法向量、一个观察方向和两个材质之间的折射率(Refractive Index)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;             </span><br><span class="line">    float ratio = 1.00 / 1.52;</span><br><span class="line">    vec3 I = normalize(Position - cameraPos);</span><br><span class="line">    vec3 R = refract(I, normalize(Normal), ratio);</span><br><span class="line">    FragColor = vec4(texture(skybox, R).rgb, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果图：<br><img src="/images/opengl/cubemap4.png" alt="这里写图片描述"></p>
-<p><strong>可以看到通过立方体贴图我们实现了天空盒子，一种很远你摄像机怎么移动都不会动的效果</strong></p>
 
           
         

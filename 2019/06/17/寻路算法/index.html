@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个  PathFindingJS项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。 寻路  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，">
+<meta name="keywords" content="develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻路算法">
+<meta property="og:url" content="http://yoursite.com/2019/06/17/寻路算法/index.html">
+<meta property="og:site_name" content="Alex&#39;s Blog">
+<meta property="og:description" content="前言  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个  PathFindingJS项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。 寻路  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-17T09:24:49.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="寻路算法">
+<meta name="twitter:description" content="前言  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个  PathFindingJS项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。 寻路  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/17/寻路算法/">
+
+
+
+
+
+  <title>寻路算法 | Alex's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alex's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/寻路算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">寻路算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/path-finding/" itemprop="url" rel="index">
+                    <span itemprop="name">path-finding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个<br>  <a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a>项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。</p>
+<h3 id="寻路"><a href="#寻路" class="headerlink" title="寻路"></a>寻路</h3><p>  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，那么可定就是乱走一通，不断的尝试去找。（这就是所谓的盲目式的寻路）；当然还有就是如果你知道国旗杆在你的某个方位，那么你按照大概的方向去找。（这就是启发式的寻路）；相对的，盲目式算法就会比较耗时同时占用更多的内存。</p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><ul>
+<li>盲目式<ul>
+<li>BFS 广度优先 breadth-frist-search<br>  每次先搜索周围，先把原点方圆1m找完，如果找不到，就找再向外扩展1m，如果找不到，就再向外扩展1m，每次扩大自己的圈子，直到整个地图走完。很像传染病，从开始一个点慢慢传染到整个地区</li>
+<li>DFS 深度优先 depth-first-search<br>  每次先往深度走，如果此路走到底都没找到，退回到原点，换另一条路找，如果走到底还是没找到，继续换一条路，直到全部路走完。</li>
+</ul>
+</li>
+<li>启发式<ul>
+<li>Dijkstra<br>  Dijkstra算法从物体所在的初始点开始，访问图中的结点。它迭代检查待检查结点集中的结点，并把和该结点最靠近的尚未检查的结点加入待检查结点集。该结点集从初始结点向外扩展，直到到达目标结点 也就是计算G(n)</li>
+<li>best-first-search 最佳优先搜索<br>  同Dijkstra但是它是评估任一点到目标点的代价 也就是计算 H(n)</li>
+<li>A*
+  结合了上述两种算法取的一个相对的平衡 也就是 计算 F(n) = G(n) + H(n);也就是说在某些情况下A*是可以退化为上面两种的其中一种的比如G(n) = 0 就变成bfs</li>
+</ul>
+</li>
+</ul>
+<h3 id="DFS-代码"><a href="#DFS-代码" class="headerlink" title="DFS 代码"></a>DFS 代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;stack&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int maxn = 100;</span><br><span class="line">const int inf = 0x3fffffff;</span><br><span class="line">//1代表墙，0代表空地，2代表终点 </span><br><span class="line">int G[maxn][maxn];</span><br><span class="line">//此数组记录到此节点的最小步数，类似dp。同时用来判重 </span><br><span class="line">int book[maxn][maxn];</span><br><span class="line">int n, m;</span><br><span class="line"></span><br><span class="line">struct Node</span><br><span class="line">&#123;</span><br><span class="line">    int x;</span><br><span class="line">    int y;</span><br><span class="line">    int k;//控制方向 </span><br><span class="line">    Node(int x, int y, int k):x(x), y(y), k(k)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//移动时的坐标改变量 </span><br><span class="line">const int dx[4] = &#123;-1, 1, 0, 0&#125;;</span><br><span class="line">const int dy[4] = &#123;0, 0, -1, 1&#125;; </span><br><span class="line"></span><br><span class="line">//dfs栈实现，非递归 </span><br><span class="line">int dfs(int sx, int sy)</span><br><span class="line">&#123;   </span><br><span class="line">    for(int i = 0; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int j = 0; j &lt; n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            book[i][j] = inf;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    book[sx][sy] = 0;</span><br><span class="line">    </span><br><span class="line">    stack&lt;Node&gt; s;</span><br><span class="line">    Node temp(sx, sy, 0);</span><br><span class="line">    s.push(temp);</span><br><span class="line">    while(!s.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        Node u = s.top();</span><br><span class="line">        s.pop();</span><br><span class="line">        int x = u.x;</span><br><span class="line">        int y = u.y;</span><br><span class="line">        //尝试向左，向右,向上，向下走 </span><br><span class="line">        if(u.k &lt; 4)</span><br><span class="line">        &#123;</span><br><span class="line">            int next_x = x + dx[u.k];</span><br><span class="line">            int next_y  = y + dy[u.k]; </span><br><span class="line">            //将原栈帧k+1继续入栈（因为C++这栈的元素貌似是不可变数据结构，你改变top的k值，下次top时还是原来的k值） </span><br><span class="line">            Node tmp(x, y, u.k + 1);</span><br><span class="line">            s.push(tmp);</span><br><span class="line">            //不能越界，也不能往障碍走 </span><br><span class="line">            u.k = u.k + 1;</span><br><span class="line">            if(next_x &gt;= n || next_x &lt; 0 || next_y &gt;= m || next_y &lt; 0 || G[next_x][next_y] == 1)</span><br><span class="line">                continue;</span><br><span class="line">            </span><br><span class="line">            //如果可以走，看是否之前走过</span><br><span class="line">            if(book[next_x][next_y] == inf)</span><br><span class="line">            &#123;</span><br><span class="line">                //从此点继续扩展 </span><br><span class="line">                Node temp(next_x, next_y, 0);</span><br><span class="line">                s.push(temp);</span><br><span class="line">                </span><br><span class="line">                //更新步数</span><br><span class="line">                book[next_x][next_y] = book[x][y] + 1; </span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                //更新步数</span><br><span class="line">                book[next_x][next_y] = min(book[next_x][next_y], book[x][y] + 1);</span><br><span class="line">            &#125; </span><br><span class="line">            </span><br><span class="line">            if(G[next_x][next_y] == 2)</span><br><span class="line">            &#123;</span><br><span class="line">                return book[next_x][next_y];</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    return -1; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="A-Dijkstra-bfs代码"><a href="#A-Dijkstra-bfs代码" class="headerlink" title="A* Dijkstra bfs代码"></a>A* Dijkstra bfs代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">// A* 寻路</span><br><span class="line">AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) &#123;</span><br><span class="line">    // heap 做容器(有序)</span><br><span class="line">    var openList = new Heap(function(nodeA, nodeB) &#123;</span><br><span class="line">            return nodeA.f - nodeB.f;</span><br><span class="line">        &#125;),</span><br><span class="line">        startNode = grid.getNodeAt(startX, startY),</span><br><span class="line">        endNode = grid.getNodeAt(endX, endY),</span><br><span class="line">        heuristic = this.heuristic,</span><br><span class="line">        diagonalMovement = this.diagonalMovement,</span><br><span class="line">        weight = this.weight,</span><br><span class="line">        abs = Math.abs, SQRT2 = Math.SQRT2,</span><br><span class="line">        node, neighbors, neighbor, i, l, x, y, ng;</span><br><span class="line"></span><br><span class="line">    // 分别代表 g(n) 和 f(n)</span><br><span class="line">    startNode.g = 0;</span><br><span class="line">    startNode.f = 0;</span><br><span class="line"></span><br><span class="line">    // 从起始点开始</span><br><span class="line">    openList.push(startNode);</span><br><span class="line">    startNode.opened = true;</span><br><span class="line"></span><br><span class="line">    // while the open list is not empty</span><br><span class="line">    while (!openList.empty()) &#123;</span><br><span class="line">        // 找到当前队列中最小 f(n)</span><br><span class="line">        node = openList.pop();</span><br><span class="line"></span><br><span class="line">        // closed 标签表明已经计算过</span><br><span class="line">        node.closed = true;</span><br><span class="line"></span><br><span class="line">        // 结束, 并回溯最佳路线</span><br><span class="line">        if (node === endNode) &#123;</span><br><span class="line">            return Util.backtrace(endNode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 邻居节点(四方向或者八方向有区别的)</span><br><span class="line">        neighbors = grid.getNeighbors(node, diagonalMovement);</span><br><span class="line">        for (i = 0, l = neighbors.length; i &lt; l; ++i) &#123;</span><br><span class="line">            neighbor = neighbors[i];</span><br><span class="line">            // 已经结算过的就忽略了</span><br><span class="line">            if (neighbor.closed) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            x = neighbor.x;</span><br><span class="line">            y = neighbor.y;</span><br><span class="line"></span><br><span class="line">            // g(n), 实际距离, 实际上是 Euclidean distance</span><br><span class="line">            ng = node.g + ((x - node.x === 0 || y - node.y === 0) ? 1 : SQRT2);</span><br><span class="line"></span><br><span class="line">            // 两种情况需要计算:</span><br><span class="line">            // 1. 这是一个新的节点</span><br><span class="line">            // 2. 这个节点当前计算的 g(n) 更优</span><br><span class="line">            if (!neighbor.opened || ng &lt; neighbor.g) &#123;</span><br><span class="line"></span><br><span class="line">                neighbor.g = ng;</span><br><span class="line">                // h = 权重 * 启发函数的计算结果</span><br><span class="line">                neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));</span><br><span class="line">                neighbor.f = neighbor.g + neighbor.h;</span><br><span class="line"></span><br><span class="line">                // 到父节点的链接, 方便结果回溯</span><br><span class="line">                neighbor.parent = node;</span><br><span class="line"></span><br><span class="line">                // 更新到结果集</span><br><span class="line">                if (!neighbor.opened) &#123;</span><br><span class="line">                    openList.push(neighbor);</span><br><span class="line">                    neighbor.opened = true;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    // the neighbor can be reached with smaller cost.</span><br><span class="line">                    // Since its f value has been updated, we have to</span><br><span class="line">                    // update its position in the open list</span><br><span class="line">                    openList.updateItem(neighbor);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; // end for each neighbor</span><br><span class="line">    &#125; // end while not open list empty</span><br><span class="line"></span><br><span class="line">    // 没找大, 失败</span><br><span class="line">    return [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Dijkstra 弱化 A* 的 h(n) = 0</span><br><span class="line">function DijkstraFinder(opt) &#123;</span><br><span class="line">    AStarFinder.call(this, opt);</span><br><span class="line">    this.heuristic = function(dx, dy) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">DijkstraFinder.prototype = new AStarFinder();</span><br><span class="line">DijkstraFinder.prototype.constructor = DijkstraFinder;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// BFS 强化 A* 的 h(n), 相当于弱化 g(n)</span><br><span class="line">function BestFirstFinder(opt) &#123;</span><br><span class="line">    AStarFinder.call(this, opt);</span><br><span class="line">    var orig = this.heuristic;</span><br><span class="line">    this.heuristic = function(dx, dy) &#123;</span><br><span class="line">        return orig(dx, dy) * 1000000;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">BestFirstFinder.prototype = new AStarFinder();</span><br><span class="line">BestFirstFinder.prototype.constructor = BestFirstFinder;</span><br></pre></td></tr></table></figure>
+
+<p>  可以看到核心思想就是围绕openlist是否为空去while然后不断的判断 F(n) = G(n) + H(n)；最终通过找到的endpoint通过记录的parent回溯找到整个路径。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a><br><a href="https://www.cnblogs.com/sanmubai/p/6829495.html" target="_blank" rel="noopener">A*算法</a><br><a href="https://blog.csdn.net/ljt735029684/article/details/78945098" target="_blank" rel="noopener">寻路算法心得</a><br><a href="https://www.jianshu.com/p/97ebcbddd64c" target="_blank" rel="noopener">路径规划</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Alex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/06/17/寻路算法/" title="寻路算法">http://yoursite.com/2019/06/17/寻路算法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://ander456.github.io/blog/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/前端为什么会有service层/" rel="next" title="前端为什么会有service层">
+                <i class="fa fa-chevron-left"></i> 前端为什么会有service层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Ander456" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:540545947@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻路"><span class="nav-number">2.</span> <span class="nav-text">寻路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法"><span class="nav-number">3.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DFS-代码"><span class="nav-number">4.</span> <span class="nav-text">DFS 代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Dijkstra-bfs代码"><span class="nav-number">5.</span> <span class="nav-text">A* Dijkstra bfs代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

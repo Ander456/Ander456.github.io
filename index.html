@@ -260,6 +260,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/寻路算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/寻路算法/" itemprop="url">寻路算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/path-finding/" itemprop="url" rel="index">
+                    <span itemprop="name">path-finding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个<br>  <a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a>项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。</p>
+<h3 id="寻路"><a href="#寻路" class="headerlink" title="寻路"></a>寻路</h3><p>  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，那么可定就是乱走一通，不断的尝试去找。（这就是所谓的盲目式的寻路）；当然还有就是如果你知道国旗杆在你的某个方位，那么你按照大概的方向去找。（这就是启发式的寻路）；相对的，盲目式算法就会比较耗时同时占用更多的内存。</p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><ul>
+<li>盲目式<ul>
+<li>BFS 广度优先 breadth-frist-search<br>  每次先搜索周围，先把原点方圆1m找完，如果找不到，就找再向外扩展1m，如果找不到，就再向外扩展1m，每次扩大自己的圈子，直到整个地图走完。很像传染病，从开始一个点慢慢传染到整个地区</li>
+<li>DFS 深度优先 depth-first-search<br>  每次先往深度走，如果此路走到底都没找到，退回到原点，换另一条路找，如果走到底还是没找到，继续换一条路，直到全部路走完。</li>
+</ul>
+</li>
+<li>启发式<ul>
+<li>Dijkstra<br>  Dijkstra算法从物体所在的初始点开始，访问图中的结点。它迭代检查待检查结点集中的结点，并把和该结点最靠近的尚未检查的结点加入待检查结点集。该结点集从初始结点向外扩展，直到到达目标结点 也就是计算G(n)</li>
+<li>best-first-search 最佳优先搜索<br>  同Dijkstra但是它是评估任一点到目标点的代价 也就是计算 H(n)</li>
+<li>A*
+  结合了上述两种算法取的一个相对的平衡 也就是 计算 F(n) = G(n) + H(n);也就是说在某些情况下A*是可以退化为上面两种的其中一种的比如G(n) = 0 就变成bfs</li>
+</ul>
+</li>
+</ul>
+<h3 id="DFS-代码"><a href="#DFS-代码" class="headerlink" title="DFS 代码"></a>DFS 代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;stack&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int maxn = 100;</span><br><span class="line">const int inf = 0x3fffffff;</span><br><span class="line">//1代表墙，0代表空地，2代表终点 </span><br><span class="line">int G[maxn][maxn];</span><br><span class="line">//此数组记录到此节点的最小步数，类似dp。同时用来判重 </span><br><span class="line">int book[maxn][maxn];</span><br><span class="line">int n, m;</span><br><span class="line"></span><br><span class="line">struct Node</span><br><span class="line">&#123;</span><br><span class="line">    int x;</span><br><span class="line">    int y;</span><br><span class="line">    int k;//控制方向 </span><br><span class="line">    Node(int x, int y, int k):x(x), y(y), k(k)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//移动时的坐标改变量 </span><br><span class="line">const int dx[4] = &#123;-1, 1, 0, 0&#125;;</span><br><span class="line">const int dy[4] = &#123;0, 0, -1, 1&#125;; </span><br><span class="line"></span><br><span class="line">//dfs栈实现，非递归 </span><br><span class="line">int dfs(int sx, int sy)</span><br><span class="line">&#123;   </span><br><span class="line">    for(int i = 0; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int j = 0; j &lt; n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            book[i][j] = inf;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    book[sx][sy] = 0;</span><br><span class="line">    </span><br><span class="line">    stack&lt;Node&gt; s;</span><br><span class="line">    Node temp(sx, sy, 0);</span><br><span class="line">    s.push(temp);</span><br><span class="line">    while(!s.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        Node u = s.top();</span><br><span class="line">        s.pop();</span><br><span class="line">        int x = u.x;</span><br><span class="line">        int y = u.y;</span><br><span class="line">        //尝试向左，向右,向上，向下走 </span><br><span class="line">        if(u.k &lt; 4)</span><br><span class="line">        &#123;</span><br><span class="line">            int next_x = x + dx[u.k];</span><br><span class="line">            int next_y  = y + dy[u.k]; </span><br><span class="line">            //将原栈帧k+1继续入栈（因为C++这栈的元素貌似是不可变数据结构，你改变top的k值，下次top时还是原来的k值） </span><br><span class="line">            Node tmp(x, y, u.k + 1);</span><br><span class="line">            s.push(tmp);</span><br><span class="line">            //不能越界，也不能往障碍走 </span><br><span class="line">            u.k = u.k + 1;</span><br><span class="line">            if(next_x &gt;= n || next_x &lt; 0 || next_y &gt;= m || next_y &lt; 0 || G[next_x][next_y] == 1)</span><br><span class="line">                continue;</span><br><span class="line">            </span><br><span class="line">            //如果可以走，看是否之前走过</span><br><span class="line">            if(book[next_x][next_y] == inf)</span><br><span class="line">            &#123;</span><br><span class="line">                //从此点继续扩展 </span><br><span class="line">                Node temp(next_x, next_y, 0);</span><br><span class="line">                s.push(temp);</span><br><span class="line">                </span><br><span class="line">                //更新步数</span><br><span class="line">                book[next_x][next_y] = book[x][y] + 1; </span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                //更新步数</span><br><span class="line">                book[next_x][next_y] = min(book[next_x][next_y], book[x][y] + 1);</span><br><span class="line">            &#125; </span><br><span class="line">            </span><br><span class="line">            if(G[next_x][next_y] == 2)</span><br><span class="line">            &#123;</span><br><span class="line">                return book[next_x][next_y];</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    return -1; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="A-Dijkstra-bfs代码"><a href="#A-Dijkstra-bfs代码" class="headerlink" title="A* Dijkstra bfs代码"></a>A* Dijkstra bfs代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">// A* 寻路</span><br><span class="line">AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) &#123;</span><br><span class="line">    // heap 做容器(有序)</span><br><span class="line">    var openList = new Heap(function(nodeA, nodeB) &#123;</span><br><span class="line">            return nodeA.f - nodeB.f;</span><br><span class="line">        &#125;),</span><br><span class="line">        startNode = grid.getNodeAt(startX, startY),</span><br><span class="line">        endNode = grid.getNodeAt(endX, endY),</span><br><span class="line">        heuristic = this.heuristic,</span><br><span class="line">        diagonalMovement = this.diagonalMovement,</span><br><span class="line">        weight = this.weight,</span><br><span class="line">        abs = Math.abs, SQRT2 = Math.SQRT2,</span><br><span class="line">        node, neighbors, neighbor, i, l, x, y, ng;</span><br><span class="line"></span><br><span class="line">    // 分别代表 g(n) 和 f(n)</span><br><span class="line">    startNode.g = 0;</span><br><span class="line">    startNode.f = 0;</span><br><span class="line"></span><br><span class="line">    // 从起始点开始</span><br><span class="line">    openList.push(startNode);</span><br><span class="line">    startNode.opened = true;</span><br><span class="line"></span><br><span class="line">    // while the open list is not empty</span><br><span class="line">    while (!openList.empty()) &#123;</span><br><span class="line">        // 找到当前队列中最小 f(n)</span><br><span class="line">        node = openList.pop();</span><br><span class="line"></span><br><span class="line">        // closed 标签表明已经计算过</span><br><span class="line">        node.closed = true;</span><br><span class="line"></span><br><span class="line">        // 结束, 并回溯最佳路线</span><br><span class="line">        if (node === endNode) &#123;</span><br><span class="line">            return Util.backtrace(endNode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 邻居节点(四方向或者八方向有区别的)</span><br><span class="line">        neighbors = grid.getNeighbors(node, diagonalMovement);</span><br><span class="line">        for (i = 0, l = neighbors.length; i &lt; l; ++i) &#123;</span><br><span class="line">            neighbor = neighbors[i];</span><br><span class="line">            // 已经结算过的就忽略了</span><br><span class="line">            if (neighbor.closed) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            x = neighbor.x;</span><br><span class="line">            y = neighbor.y;</span><br><span class="line"></span><br><span class="line">            // g(n), 实际距离, 实际上是 Euclidean distance</span><br><span class="line">            ng = node.g + ((x - node.x === 0 || y - node.y === 0) ? 1 : SQRT2);</span><br><span class="line"></span><br><span class="line">            // 两种情况需要计算:</span><br><span class="line">            // 1. 这是一个新的节点</span><br><span class="line">            // 2. 这个节点当前计算的 g(n) 更优</span><br><span class="line">            if (!neighbor.opened || ng &lt; neighbor.g) &#123;</span><br><span class="line"></span><br><span class="line">                neighbor.g = ng;</span><br><span class="line">                // h = 权重 * 启发函数的计算结果</span><br><span class="line">                neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));</span><br><span class="line">                neighbor.f = neighbor.g + neighbor.h;</span><br><span class="line"></span><br><span class="line">                // 到父节点的链接, 方便结果回溯</span><br><span class="line">                neighbor.parent = node;</span><br><span class="line"></span><br><span class="line">                // 更新到结果集</span><br><span class="line">                if (!neighbor.opened) &#123;</span><br><span class="line">                    openList.push(neighbor);</span><br><span class="line">                    neighbor.opened = true;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    // the neighbor can be reached with smaller cost.</span><br><span class="line">                    // Since its f value has been updated, we have to</span><br><span class="line">                    // update its position in the open list</span><br><span class="line">                    openList.updateItem(neighbor);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; // end for each neighbor</span><br><span class="line">    &#125; // end while not open list empty</span><br><span class="line"></span><br><span class="line">    // 没找大, 失败</span><br><span class="line">    return [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Dijkstra 弱化 A* 的 h(n) = 0</span><br><span class="line">function DijkstraFinder(opt) &#123;</span><br><span class="line">    AStarFinder.call(this, opt);</span><br><span class="line">    this.heuristic = function(dx, dy) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">DijkstraFinder.prototype = new AStarFinder();</span><br><span class="line">DijkstraFinder.prototype.constructor = DijkstraFinder;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// BFS 强化 A* 的 h(n), 相当于弱化 g(n)</span><br><span class="line">function BestFirstFinder(opt) &#123;</span><br><span class="line">    AStarFinder.call(this, opt);</span><br><span class="line">    var orig = this.heuristic;</span><br><span class="line">    this.heuristic = function(dx, dy) &#123;</span><br><span class="line">        return orig(dx, dy) * 1000000;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">BestFirstFinder.prototype = new AStarFinder();</span><br><span class="line">BestFirstFinder.prototype.constructor = BestFirstFinder;</span><br></pre></td></tr></table></figure>
+
+<p>  可以看到核心思想就是围绕openlist是否为空去while然后不断的判断 F(n) = G(n) + H(n)；最终通过找到的endpoint通过记录的parent回溯找到整个路径。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a><br><a href="https://www.cnblogs.com/sanmubai/p/6829495.html" target="_blank" rel="noopener">A*算法</a><br><a href="https://blog.csdn.net/ljt735029684/article/details/78945098" target="_blank" rel="noopener">寻路算法心得</a><br><a href="https://www.jianshu.com/p/97ebcbddd64c" target="_blank" rel="noopener">路径规划</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/09/前端为什么会有service层/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -556,160 +719,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alex">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alex's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/25/纹理POT和NPOT/" itemprop="url">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
-                2018-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
-<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
-<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
-<blockquote>
-<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
-</blockquote>
-<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
-<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/lua正则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -839,6 +848,160 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s, func = string.match(&quot;static bool getBoolean(const char *key, bool defaultValue = false);&quot;, &quot;(.+[ *])([^ ]+)[ ]*%(&quot;)</span><br><span class="line">print(s, func)</span><br></pre></td></tr></table></figure>
 
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/25/纹理POT和NPOT/" itemprop="url">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
+<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
+<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
+<blockquote>
+<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
+</blockquote>
+<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
+<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
 
           
         
@@ -1809,194 +1972,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/Opengl-阴影/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alex">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alex's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/03/Opengl-阴影/" itemprop="url">Opengl-阴影(分为定向光的和点光源的)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T00:00:00+08:00">
-                2018-09-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/opengl/" itemprop="url" rel="index">
-                    <span itemprop="name">opengl</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>##前言</p>
-</blockquote>
-<p>我们模拟了光照，发现真的很厉害，加上天空盒子，再加上反射感觉很逼真，但是看着看着你会发现。。不对，没影子。是的，光和影分不开的，有光的地方就会有影子，这才是真实的道理。怎么模拟影子呢？这就要用到前面学到的，帧缓冲-写入纹理。<br><img src="/images/opengl/shadow1.png" alt="这里写图片描述"></p>
-<p>阴影产生的原因如图，就是因为<strong>同一条射线上里的光近的物体挡住了离的远的物体。</strong></p>
-<p><img src="/images/opengl/shadow2.png" alt="这里写图片描述"><br>我们如何判断一个物体是否在阴影中呢？就是按照图上的，Z Distance也就是在光源方向上的空间来看的。这些Z表示深度，也就是距离光源的距离，如果我们从光源的透视图来渲染场景，并把深度值的结果储存到纹理中会怎样？通过这种方式，我们就能对光源的透视图所见的最近的深度值进行采样。最终，深度值就会显示从光源的透视图下见到的第一个片元了。我们管储存在纹理中的所有这些深度值，<strong>叫做深度贴图（depth map）或阴影贴图</strong>。</p>
-<hr>
-<blockquote>
-<p>##定向光产生的阴影</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">      // 1. Render depth of scene to texture (from light&apos;s perspective)</span><br><span class="line">        // - Get light projection/view matrix.</span><br><span class="line">        glCullFace(GL_FRONT);</span><br><span class="line">        glm::mat4 lightProjection, lightView;</span><br><span class="line">        glm::mat4 lightSpaceMatrix;</span><br><span class="line">        GLfloat near_plane = 1.0f, far_plane = 7.5f;</span><br><span class="line">//        lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane);</span><br><span class="line">        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);</span><br><span class="line">        lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));</span><br><span class="line">        lightSpaceMatrix = lightProjection * lightView;</span><br><span class="line">        // - render scene from light&apos;s point of view</span><br><span class="line">        simpleDepthShader.use();</span><br><span class="line">        glUniformMatrix4fv(glGetUniformLocation(simpleDepthShader.ID, &quot;lightSpaceMatrix&quot;), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));</span><br><span class="line">        </span><br><span class="line">        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);</span><br><span class="line">        glClear(GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        RenderScene(simpleDepthShader);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, 0);</span><br><span class="line">        </span><br><span class="line">        // Reset viewport</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        glCullFace(GL_BACK);</span><br><span class="line">        </span><br><span class="line">        // 2. render scene as normal using the generated depth/shadow map</span><br><span class="line">        // --------------------------------------------------------------</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        shader.use();</span><br><span class="line">        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);</span><br><span class="line">        glm::mat4 view = camera.GetViewMatrix();</span><br><span class="line">        shader.setMat4(&quot;projection&quot;, projection);</span><br><span class="line">        shader.setMat4(&quot;view&quot;, view);</span><br><span class="line">        // set light uniforms</span><br><span class="line">        shader.setVec3(&quot;viewPos&quot;, camera.Position);</span><br><span class="line">        shader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        shader.setMat4(&quot;lightSpaceMatrix&quot;, lightSpaceMatrix);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, woodTexture);</span><br><span class="line">        glActiveTexture(GL_TEXTURE1);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, depthMap);</span><br><span class="line">        RenderScene(shader);</span><br><span class="line">        </span><br><span class="line">        // Render Depth map to quad</span><br><span class="line">        debugDepthQuad.use();</span><br><span class="line">        glUniform1f(glGetUniformLocation(debugDepthQuad.ID, &quot;near_plane&quot;), near_plane);</span><br><span class="line">        glUniform1f(glGetUniformLocation(debugDepthQuad.ID, &quot;far_plane&quot;), far_plane);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, depthMap);</span><br><span class="line">//        RenderQuad(); 这是把那个深度贴图渲染出来的方法</span><br></pre></td></tr></table></figure>
-
-<p>看代码就知道了，步骤分为：</p>
-<ol>
-<li>先从光源空间渲染一下场景，然后开一个帧缓冲，把渲染都写到纹理上</li>
-<li>在视角空间按照以往的步骤渲染场景采样上面的深度图</li>
-</ol>
-<p><strong>glm::ortho 是因为是定向光</strong></p>
-<p><strong>深度图</strong><br><img src="/images/opengl/shadow3.png" alt="这里写图片描述"></p>
-<p><strong>根据深度图的渲染场景</strong><br><img src="/images/opengl/shadow4.png" alt="这里写图片描述"></p>
-<p><strong>普通渲染场景中计算阴影的部分</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">float ShadowCalculation(vec4 fragPosLightSpace, float bias)</span><br><span class="line">&#123;</span><br><span class="line">    // perform perspective divide</span><br><span class="line">    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;</span><br><span class="line">    // transform to [0,1] range</span><br><span class="line">    projCoords = projCoords * 0.5 + 0.5;</span><br><span class="line">    // get closest depth value from light&apos;s perspective (using [0,1] range fragPosLight as coords)</span><br><span class="line">    float closestDepth = texture(shadowMap, projCoords.xy).r;</span><br><span class="line">    // get depth of current fragment from light&apos;s perspective</span><br><span class="line">    float currentDepth = projCoords.z;</span><br><span class="line">    // check whether current frag pos is in shadow</span><br><span class="line">//    float shadow = currentDepth - bias &gt; closestDepth  ? 1.0 : 0.0; // use pcf not directly compare</span><br><span class="line">    // PCF</span><br><span class="line">    float shadow = 0.0;</span><br><span class="line">    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);</span><br><span class="line">    for(int x = -1; x &lt;= 1; ++x)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int y = -1; y &lt;= 1; ++y)</span><br><span class="line">        &#123;</span><br><span class="line">            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;</span><br><span class="line">            shadow += currentDepth - bias &gt; pcfDepth  ? 1.0 : 0.0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    shadow /= 9.0;</span><br><span class="line">    </span><br><span class="line">    if(projCoords.z &gt; 1.0)</span><br><span class="line">        shadow = 0.0;</span><br><span class="line">    return shadow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    vec3 color = texture(diffuseTexture, fs_in.TexCoords).rgb;</span><br><span class="line">    vec3 normal = normalize(fs_in.Normal);</span><br><span class="line">    vec3 lightColor = vec3(0.3);</span><br><span class="line">    // ambient</span><br><span class="line">    vec3 ambient = 0.3 * color;</span><br><span class="line">    // diffuse</span><br><span class="line">    vec3 lightDir = normalize(lightPos - fs_in.FragPos);</span><br><span class="line">    float diff = max(dot(lightDir, normal), 0.0);</span><br><span class="line">    vec3 diffuse = diff * lightColor;</span><br><span class="line">    // specular</span><br><span class="line">    vec3 viewDir = normalize(viewPos - fs_in.FragPos);</span><br><span class="line">    vec3 reflectDir = reflect(-lightDir, normal);</span><br><span class="line">    float spec = 0.0;</span><br><span class="line">    vec3 halfwayDir = normalize(lightDir + viewDir);</span><br><span class="line">    spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);</span><br><span class="line">    vec3 specular = spec * lightColor;</span><br><span class="line">    // calculate shadow</span><br><span class="line">    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);</span><br><span class="line">    float shadow = ShadowCalculation(fs_in.FragPosLightSpace, bias);</span><br><span class="line">    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;</span><br><span class="line">    </span><br><span class="line">    FragColor = vec4(lighting, 1.0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>关于bias是为了解决阴影失真问题</strong><br><img src="/images/opengl/shadow5.png" alt="这里写图片描述"><br>使用了偏移量后，所有采样点都获得了比表面深度更小的深度值，这样整个表面就正确地被照亮，没有任何阴影。</p>
-<p><strong>关于PCF就是为了让阴影更圆润</strong></p>
-<hr>
-<hr>
-<hr>
-<blockquote>
-<p>###点光源</p>
-</blockquote>
-<p><img src="/images/opengl/shadow6.png" alt="这里写图片描述"></p>
-<p>对于深度贴图，我们需要从一个点光源的所有渲染场景，普通2D深度贴图不能工作；如果我们使用立方体贴图会怎样？因为立方体贴图可以储存6个面的环境数据，它可以将整个场景渲染到立方体贴图的每个面上，把它们当作点光源四周的深度值来采样。</p>
-<p><strong>生成深度贴图的方式和前面的一样只不过换成了立方体贴图了</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">// 0. create depth cubemap transformation matrices</span><br><span class="line">        // -----------------------------------------------</span><br><span class="line">        float near_plane = 1.0f;</span><br><span class="line">        float far_plane  = 25.0f;</span><br><span class="line">        glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);</span><br><span class="line">        std::vector&lt;glm::mat4&gt; shadowTransforms;</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f)));</span><br><span class="line">        </span><br><span class="line">        // 1. Render depth of scene to texture (from light&apos;s perspective)</span><br><span class="line">        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);</span><br><span class="line">        glClear(GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        simpleDepthShader.use();</span><br><span class="line">        for (unsigned int i = 0; i &lt; 6; ++i)</span><br><span class="line">            simpleDepthShader.setMat4(&quot;shadowMatrices[&quot; + std::to_string(i) + &quot;]&quot;, shadowTransforms[i]);</span><br><span class="line">        simpleDepthShader.setFloat(&quot;far_plane&quot;, far_plane);</span><br><span class="line">        simpleDepthShader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        RenderScene(simpleDepthShader);</span><br><span class="line">        glBindFramebuffer(GL_FRAMEBUFFER, 0);</span><br><span class="line">        </span><br><span class="line">        // 2. render scene as normal using the generated depth/shadow map</span><br><span class="line">        // --------------------------------------------------------------</span><br><span class="line">        glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        shader.use();</span><br><span class="line">        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);</span><br><span class="line">        glm::mat4 view = camera.GetViewMatrix();</span><br><span class="line">        shader.setMat4(&quot;projection&quot;, projection);</span><br><span class="line">        shader.setMat4(&quot;view&quot;, view);</span><br><span class="line">        // set lighting uniforms</span><br><span class="line">        shader.setVec3(&quot;lightPos&quot;, lightPos);</span><br><span class="line">        shader.setVec3(&quot;viewPos&quot;, camera.Position);</span><br><span class="line">        shader.setInt(&quot;shadows&quot;, shadows); // enable/disable shadows by pressing &apos;SPACE&apos;</span><br><span class="line">        shader.setFloat(&quot;far_plane&quot;, far_plane);</span><br><span class="line">        glActiveTexture(GL_TEXTURE0);</span><br><span class="line">        glBindTexture(GL_TEXTURE_2D, woodTexture);</span><br><span class="line">        glActiveTexture(GL_TEXTURE1);</span><br><span class="line">        glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);</span><br><span class="line">        RenderScene(shader);</span><br></pre></td></tr></table></figure>
-
-<p>看代码 分为三个步骤：</p>
-<p>0：创建立方体贴图矩阵 也就是从立方体的六个面的空间来着手<br>1： 渲染立方体深度贴图<br>2：从照相机空间也就是我们的视角空间渲染场景按照往常</p>
-<p><img src="/images/opengl/shadow7.png" alt="这里写图片描述"></p>
-<p>相较平行光阴影shader最大的不同在于多了一个geometry-shader几何着色器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#version 330 core</span><br><span class="line">layout (triangles) in;</span><br><span class="line">layout (triangle_strip, max_vertices=18) out;</span><br><span class="line"></span><br><span class="line">uniform mat4 shadowMatrices[6];</span><br><span class="line"></span><br><span class="line">out vec4 FragPos; // FragPos from GS (output per emitvertex)</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    for(int face = 0; face &lt; 6; ++face)</span><br><span class="line">    &#123;</span><br><span class="line">        gl_Layer = face; // built-in variable that specifies to which face we render.</span><br><span class="line">        for(int i = 0; i &lt; 3; ++i) // for each triangle&apos;s vertices</span><br><span class="line">        &#123;</span><br><span class="line">            FragPos = gl_in[i].gl_Position;</span><br><span class="line">            gl_Position = shadowMatrices[face] * FragPos;</span><br><span class="line">            EmitVertex();</span><br><span class="line">        &#125;</span><br><span class="line">        EndPrimitive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>几何着色器有一个内建变量叫做gl_Layer，它指定发散出基本图形送到立方体贴图的哪个面。当不管它时，几何着色器就会像往常一样把它的基本图形发送到输送管道的下一阶段，但当我们更新这个变量就能控制每个基本图形将渲染到立方体贴图的哪一个面。当然这只有当我们有了一个附加到激活的帧缓冲的立方体贴图纹理才有效：</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2049,7 +2024,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2060,7 +2035,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

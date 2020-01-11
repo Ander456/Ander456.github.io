@@ -379,6 +379,7 @@
 <li>H是不变的，而G是会动态变换的与路径有关，可能上次找的点周围的点的G是一个值，但是这次换了一个点，可是这个点的周围节点还有那个已经计算过G的点就要看是否需要更新了，如果这次计算的G更小（G=起始点到当前这个点）就得更新下节点的信息</li>
 <li>closedlist并不是单纯的会存一个path最后，而是还存很多不需要检查的点，回溯路径是通过链的parent找到的</li>
 <li>openlist就像购物清单，我们需要关注的点才放到这个清单上,同理closedlist也就是我们不再需要顾虑关心的清单了</li>
+<li>其实BFS和Dijkstra在无权图上是一样的有权值图上Dij更好</li>
 </ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a><br><a href="https://www.cnblogs.com/sanmubai/p/6829495.html" target="_blank" rel="noopener">A*算法</a><br><a href="https://blog.csdn.net/ljt735029684/article/details/78945098" target="_blank" rel="noopener">寻路算法心得</a><br><a href="https://www.jianshu.com/p/97ebcbddd64c" target="_blank" rel="noopener">路径规划</a><br><a href="https://blog.csdn.net/yiyikela/article/details/46134339" target="_blank" rel="noopener">A*浅析</a></p>
 
@@ -725,160 +726,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alex">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alex's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/25/纹理POT和NPOT/" itemprop="url">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
-                2018-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
-<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
-<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
-<blockquote>
-<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
-</blockquote>
-<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
-<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/lua正则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1008,6 +855,160 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s, func = string.match(&quot;static bool getBoolean(const char *key, bool defaultValue = false);&quot;, &quot;(.+[ *])([^ ]+)[ ]*%(&quot;)</span><br><span class="line">print(s, func)</span><br></pre></td></tr></table></figure>
 
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/纹理POT和NPOT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alex's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/25/纹理POT和NPOT/" itemprop="url">Opengl中纹理的大小POT（2的幂）和NPOT（非2的幂）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T00:00:00+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  在一个技术讨论群里看到了一个老哥在说关于游戏在真机上内存的问题，说几张图片占用多大内存啊有问题啊之类的，我自己做了一些探索记录下。</p>
+<h3 id="关于图片在运行的时占用内存大小"><a href="#关于图片在运行的时占用内存大小" class="headerlink" title="关于图片在运行的时占用内存大小"></a>关于图片在运行的时占用内存大小</h3><p>运行时大小 = 长x宽x每个像素占的大小<br>举例：rgba8888 表示的是通道rgba每个通道都占用8bit那么也就是一个像素占用了4bytes<br>故，图片大小若为1014x1024，则大小=1024x1024x4/1024/1024 = 4M<br>同理rgba4444的也就能算出来了</p>
+<h3 id="关于POT和NPOT"><a href="#关于POT和NPOT" class="headerlink" title="关于POT和NPOT"></a>关于POT和NPOT</h3><p>POT: 2的幂<br>NPOT: 非2的幂<br>很多人都在说图片要求2的幂大小啊，纹理要求2的幂大小之类的，我搜索了一番，发现在opengl或者说现代设备中基本上都已经支持了NPOT的形式，也就是说不必要要求纹理宽高非要是2的幂了。<br>解释：<br> Q:为什么有这种2的幂的需求？<br> A:因为一些老的设备已经opengl早期为了性能考虑一些算法是要求纹理的宽高是要求为2的幂的比如64*64这种，同时引申出一个概念叫mipmaps就是多级纹理，也就是将一张图不断缩小，并且把这一些列图都存下来，然后根据视角的远近图片的大小显示不同的图片来达到真实效果。然后这一策略使用的也是不断的把宽高/2来实现的，所以如果是非2的幂那么可能会有一些小问题，但是影响不大</p>
+<blockquote>
+<p>While modern hardware no longer has the power-of-two limitation on texture dimensions, it is generally a good idea to keep using power-of-two textures unless you specifically need NPOTs. Mip-mapping with such textures can have slightly unintended consequences, compared to the power-of-two case.</p>
+</blockquote>
+<p> 同时提供一个<a href="https://www.khronos.org/opengl/wiki/Texture" target="_blank" rel="noopener">opengl texture wiki</a><br> Q:有了mipmaps会增加内存大小么？<br> A:会的，根据提供的数据大概是33%左右</p>
+<h3 id="cocos中纹理的使用"><a href="#cocos中纹理的使用" class="headerlink" title="cocos中纹理的使用"></a>cocos中纹理的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cocos2dx 3.10版本中在 CCTexture2D.cpp文件中可以看到所有的texture初始化都会进入initWithMipmaps这个方法</span><br><span class="line">bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat pixelFormat, int pixelsWide, int pixelsHigh)</span><br><span class="line">&#123;</span><br><span class="line">    [...]</span><br><span class="line">    glGenTextures(1, &amp;_name);</span><br><span class="line">    GL::bindTexture2D(_name);</span><br><span class="line"></span><br><span class="line">    if (mipmapsNum == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST);</span><br><span class="line">    &#125;else</span><br><span class="line">    &#123;</span><br><span class="line">        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _antialiasEnabled ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _antialiasEnabled ? GL_LINEAR : GL_NEAREST );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );</span><br><span class="line">    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );</span><br><span class="line"></span><br><span class="line">    // Specify OpenGL texture image</span><br><span class="line">    int width = pixelsWide;</span><br><span class="line">    int height = pixelsHigh;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; mipmapsNum; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        unsigned char *data = mipmaps[i].address;</span><br><span class="line">        GLsizei datalen = mipmaps[i].len;</span><br><span class="line"></span><br><span class="line">        if (info.compressed)</span><br><span class="line">        &#123;</span><br><span class="line">            glCompressedTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, datalen, data);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            glTexImage2D(GL_TEXTURE_2D, i, info.internalFormat, (GLsizei)width, (GLsizei)height, 0, info.format, info.type, data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (i &gt; 0 &amp;&amp; (width != height || ccNextPOT(width) != width ))</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D. WARNING. Mipmap level %u is not squared. Texture won&apos;t render correctly. width=%d != height=%d&quot;, i, width, height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        err = glGetError();</span><br><span class="line">        if (err != GL_NO_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            CCLOG(&quot;cocos2d: Texture2D: Error uploading compressed texture level: %u . glError: 0x%04X&quot;, i, err);</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        width = MAX(width &gt;&gt; 1, 1);</span><br><span class="line">        height = MAX(height &gt;&gt; 1, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中省略了一些代码，但是总体思路可以看到 cocos中3.10版本，并未对什么POT或者NPOT做处理，而是直接在 <strong>glTexImage2D</strong> 中传入了width和height而这也是任意的（arbitry）。这就是因为opengl后来支持了NPOT，我们可以不用关心这个2的幂的问题了。<br>Q: 使用NPOT效率比POT效率差？<br>A: 是的，理论上是会差点，但是相比效率的差，我们从美术角度或者程序角度再也不用去把一个like 63x45的美术图（本来美术这么设计的）改成64x48这样，因为这样在程序里纹理的内存就变大了（见我们上面的公式）同时，上面也说过mipmaps的问题，基本上2d游戏使用mipmaps的情形很少，也就忽略那个微乎其微的影响，所以我们使用NPOT来说更好<br>这里看个cocos对于1.x版本的时候处理NPOT的函数就知道了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Configuration::getInstance()-&gt;supportsNPOT())</span><br><span class="line">&#123;</span><br><span class="line">    powW = w;</span><br><span class="line">    powH = h;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    powW = ccNextPOT(w);</span><br><span class="line">    powH = ccNextPOT(h);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int ccNextPOT(int x)</span><br><span class="line">&#123;</span><br><span class="line">    x = x - 1;</span><br><span class="line">    x = x | (x &gt;&gt; 1);</span><br><span class="line">    x = x | (x &gt;&gt; 2);</span><br><span class="line">    x = x | (x &gt;&gt; 4);</span><br><span class="line">    x = x | (x &gt;&gt; 8);</span><br><span class="line">    x = x | (x &gt;&gt;16);</span><br><span class="line">    return x + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="几个讨论链接："><a href="#几个讨论链接：" class="headerlink" title="几个讨论链接："></a>几个讨论链接：</h3><p><a href="https://forum.cocos.com/t/npot-pot-2-n/47460" target="_blank" rel="noopener">cocos</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=198792" target="_blank" rel="noopener">cocochia</a><br><a href="https://www.opengl.org/discussion_boards/showthread.php/167665-POT-NPOT-textures" target="_blank" rel="noopener">google</a></p>
 
           
         
@@ -2096,7 +2097,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

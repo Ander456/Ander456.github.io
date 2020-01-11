@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alex&#39;s Blog">
 <meta property="og:description" content="前言  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个  PathFindingJS项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。 寻路  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-25T06:33:11.148Z">
+<meta property="og:updated_time" content="2020-01-04T04:01:56.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="寻路算法">
 <meta name="twitter:description" content="前言  作为游戏开发肯定会接触寻路算法，原来只了解A*的原理以及使用，偶尔发现了一个  PathFindingJS项目，里面诺列了一些寻路算法以及很好的UI展示，特此了解了一下其他的算法以及一些核心理论。 寻路  我们知道，要寻路就要有起始点以及终点，然后还会存在很多障碍物之类的。有个很好的故事或者例子：比如说把你蒙住眼睛站在操场上，让你去寻找国旗杆。那么这个时候，一般情况下你如果不知道东南西北，">
@@ -378,6 +378,7 @@
 <li>H是不变的，而G是会动态变换的与路径有关，可能上次找的点周围的点的G是一个值，但是这次换了一个点，可是这个点的周围节点还有那个已经计算过G的点就要看是否需要更新了，如果这次计算的G更小（G=起始点到当前这个点）就得更新下节点的信息</li>
 <li>closedlist并不是单纯的会存一个path最后，而是还存很多不需要检查的点，回溯路径是通过链的parent找到的</li>
 <li>openlist就像购物清单，我们需要关注的点才放到这个清单上,同理closedlist也就是我们不再需要顾虑关心的清单了</li>
+<li>其实BFS和Dijkstra在无权图上是一样的有权值图上Dij更好</li>
 </ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://qiao.github.io/PathFinding.js/visual/" target="_blank" rel="noopener">PathFindingJS</a><br><a href="https://www.cnblogs.com/sanmubai/p/6829495.html" target="_blank" rel="noopener">A*算法</a><br><a href="https://blog.csdn.net/ljt735029684/article/details/78945098" target="_blank" rel="noopener">寻路算法心得</a><br><a href="https://www.jianshu.com/p/97ebcbddd64c" target="_blank" rel="noopener">路径规划</a><br><a href="https://blog.csdn.net/yiyikela/article/details/46134339" target="_blank" rel="noopener">A*浅析</a></p>
 
@@ -591,7 +592,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

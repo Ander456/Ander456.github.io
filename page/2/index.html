@@ -1560,7 +1560,7 @@ glStencilMask(0x00); // 禁止模板缓冲的写入</code></pre><p>我们将模�
 <li>深度缓冲区：存储每个像素的深度值，当启动深度测试时，片段像素深度值和深度缓冲区深度值进行比较，决定片段哪些像素点数据可以替换到颜色缓冲区中。</li>
 <li>模板缓冲区(Stencil Buffer)：与颜色缓冲区和深度缓冲区类似，模板缓冲区可以为屏幕上的每个像素点保存一个无符号整数值。这个值的具体意义视程序的具体应用而定。在渲染的过程中，可以用这个值与一个预先设定的参考值相比较，根据比较的结果来决定是否更新相应的像素点的颜色值。这个比较的过程被称为模板测试。模板测试发生在透明度测试（alpha test）之后，深度测试（depth test）之前。如果模板测试通过，则相应的像素点更新，否则不更新。就像使用纸板和喷漆一样精确的混图一样，当启动模板测试时，通过模板测试的片段像素点会被替换到颜色缓冲区中，从而显示出来，未通过的则不会保存到颜色缓冲区中，从而达到了过滤的功能。下图描述了模板缓冲区的原理</li>
 </ul>
-<p><a href="https://blog.csdn.net/wangjiangrong/article/details/102551120" target="_blank" rel="noopener"></a><br>if( (referenceValue &amp; maskValue) comparisonFunction (stencilBufferValue &amp; maskValue) ){<br>    通过测试，保留像素<br>}
+<p><a href="https://blog.csdn.net/wangjiangrong/article/details/102551120" target="_blank" rel="noopener">unity中模板参考链接</a><br>if( (referenceValue &amp; maskValue) comparisonFunction (stencilBufferValue &amp; maskValue) ){<br>    通过测试，保留像素<br>}
 else{<br>    丢弃像素<br>}</p>
 
           
@@ -1779,7 +1779,7 @@ else{<br>    丢弃像素<br>}</p>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/Opengl-光照章节学习成果/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/Opengl-光照-基本光照-投光物-多光源/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Alex">
@@ -1798,7 +1798,7 @@ else{<br>    丢弃像素<br>}</p>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/26/Opengl-光照章节学习成果/" itemprop="url">Opengl-光照章节学习成果</a></h1>
+                <a class="post-title-link" href="/2018/08/26/Opengl-光照-基本光照-投光物-多光源/" itemprop="url">Opengl-光照-基本光照-投光物-多光源(现实世界的光可不只有太阳也并不只有一个)</a></h1>
         
 
         <div class="post-meta">
@@ -1872,8 +1872,24 @@ else{<br>    丢弃像素<br>}</p>
       
         
           
-            <p><img src="/images/opengl/light_result.png" alt="这里写图片描述"></p>
-<p>存在聚光灯 + 平行光 + 点光源 </p>
+            <p>##前言<br>  相信大家看过各种发光的道具，手电筒？看到过吧？灯泡看到过吧？除了太阳生活中还有各种灯红酒绿的地方（说错了）等着你去看啊</p>
+<p>##各种光源</p>
+<ul>
+<li>平行光-太阳或者很远处的光都可以叫做平行光<br><img src="/images/opengl/light_source1.png" alt="这里写图片描述"><br>平行光的光的方向是一个固定的值不变的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vec3 lightDir = normalize(-light.direction);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>点光源-灯泡-各种灯<br><img src="/images/opengl/light_source2.png" alt="这里写图片描述"><br>我们前面一直讨论的就是一个点光源</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">float distance    = length(light.position - FragPos);</span><br><span class="line">float attenuation = 1.0 / (light.constant + light.linear * distance + </span><br><span class="line">                light.quadratic * (distance * distance));</span><br><span class="line">[...]</span><br><span class="line">ambient  *= attenuation; </span><br><span class="line">diffuse  *= attenuation;</span><br><span class="line">specular *= attenuation;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>聚光灯-手电<br><img src="/images/opengl/light_source3.png" alt="这里写图片描述"></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">float theta = dot(lightDir, normalize(-light.direction));</span><br><span class="line"></span><br><span class="line">if(theta &gt; light.cutOff) </span><br><span class="line">&#123;       </span><br><span class="line">  // 执行光照计算</span><br><span class="line">&#125;</span><br><span class="line">else  // 否则，使用环境光，让场景在聚光之外时不至于完全黑暗</span><br><span class="line">  color = vec4(light.ambient * vec3(texture(material.diffuse, TexCoords)), 1.0);</span><br></pre></td></tr></table></figure>
+
+<p>我们设定了聚光的开阔范围后就是看聚光的开阔的范围和光的方向哪个更偏了，其实计算两个角度哪个更大，和计算cos值是一样的都可以得到对应的想要的结果。</p>
 
           
         
